@@ -16,28 +16,31 @@ conflicts with anything else, the ground rule wins. Claude must follow these wit
 
 ## 2. Human ↔ Claude division of labour
 
-**Claude does (in code / on disk):**
+**Claude does (in code / on disk, and now in Studio directly via the Roblox Studio MCP):**
 - Write and edit Luau, module structure, definitions, and configuration.
 - Scaffold and maintain jobs (intake → plan → summary → changelog).
-- Produce Studio Command Bar scripts (export/diagnose/fix) for the human to paste.
+- **Drive the live Studio session via MCP** — read the tree (`search_game_tree`/`inspect_instance`),
+  read/edit scripts, run Luau (`execute_luau`), read console output, trigger playtests, capture the
+  viewport. This replaces most Command Bar handoffs.
 - Generate Meshy.ai prompts + rigging/export checklists.
 - Consult the knowledge skills before guessing at APIs, balance, or design.
 
 **Human does (in Roblox Studio / external tools):**
-- Run Studio, press Play, and observe in-game behavior (Claude has no runtime).
-- Paste Command Bar scripts and report the Output back.
+- Keep **Studio open with the target place loaded** (MCP has no connectivity otherwise), and choose
+  which place is active.
+- Press **Play** and judge gameplay *feel* — the human is still the one who decides if it's fun/right.
 - Import Meshy.ai models, publish animations, and supply asset IDs.
-- Do the manual **Studio copies** for services that don't auto-sync.
 - Source icons/sounds and provide their IDs.
 - Review diffs and **commit**.
 
 When work needs a human action, Claude states it explicitly and waits — it does not pretend a
 Studio-side step is done.
 
-> **Studio access is changing.** A Roblox Studio MCP is being set up (workspace Job 002) so Claude can
-> read the live Studio tree, run diagnostics, and apply changes directly. Once it's in, this Studio
-> half of the split shrinks — Claude does more in Studio itself; the human still presses Play,
-> observes gameplay, and commits. Until it's live, the manual handoff above stands.
+> **Studio MCP is live** (workspace Job 002, 2026-07-17). Registered via committed
+> `roblox.workspace/.mcp.json`. Claude works in Studio directly; MCP writes execute arbitrary Luau in
+> the open place, so Claude Code's tool-permission prompts gate them — Claude still describes any
+> non-trivial or hard-to-reverse Studio change before applying it. The Command Bar `studio-diagnostics`
+> flow remains the **fallback** when MCP isn't connected (Studio closed, or exports too big for a tool call).
 
 ## 3. Building GUIs
 

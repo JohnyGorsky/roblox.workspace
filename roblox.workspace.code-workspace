@@ -10,5 +10,7 @@
             "path": "../roblox.jungle"
         }
     ],
-    "settings": {}
+    "settings": {
+        "luau-lsp.studioPlugin.enabled": true
+    }
 }

@@ -5,6 +5,13 @@ description: Generate Roblox Studio Command Bar utility scripts for any game in 
 
 # Studio diagnostics & fix scripts
 
+> **Prefer the Roblox Studio MCP when it's connected.** For inspecting/repairing a live Studio
+> session, the MCP tools (`search_game_tree`, `inspect_instance`, `script_read`/`multi_edit`,
+> `execute_luau`, `get_console_output`, `screen_capture`) are faster and need no human paste step.
+> Use this Command Bar flow as the **fallback** — when MCP isn't connected (Studio closed, client not
+> trusted) or when an export is too large to return through a tool call. The patterns below still
+> apply either way (an export/diagnostic/fix can run just as well via `execute_luau`).
+
 These are **one-shot scripts pasted into the Studio Command Bar** (View → Command Bar) — they are
 NOT game code and don't sync. They read/repair the live Studio session and print to the Output
 window. Claude generates them; the **human** pastes them and reports the Output back (Claude has no
