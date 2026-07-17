@@ -24,8 +24,12 @@ conflicts with anything else, the ground rule wins. Claude must follow these wit
   viewport. This replaces most Command Bar handoffs.
 - Generate Meshy.ai prompts + rigging/export checklists.
 - Consult the knowledge skills before guessing at APIs, balance, or design.
+- **Script *procedural* terrain only** (via the `roblox-terrain` skill) — compute the geometry, never
+  eyeball it, and **verify by voxel read-back + screenshot**. Hand-sculpting hero terrain is not Claude's job.
 
 **Human does (in Roblox Studio / external tools):**
+- **Hand-sculpt hero/handcrafted terrain** (rivers, islands, set-pieces) with Studio's terrain tools —
+  faster and better-looking than scripting it. Claude codes gameplay against what you build.
 - Keep **Studio open with the target place loaded** (MCP has no connectivity otherwise), and choose
   which place is active.
 - Press **Play** and judge gameplay *feel* — the human is still the one who decides if it's fun/right.
@@ -39,8 +43,10 @@ Studio-side step is done.
 > **Studio MCP is live** (workspace Job 002, 2026-07-17). Registered via committed
 > `roblox.workspace/.mcp.json`. Claude works in Studio directly; MCP writes execute arbitrary Luau in
 > the open place, so Claude Code's tool-permission prompts gate them — Claude still describes any
-> non-trivial or hard-to-reverse Studio change before applying it. The Command Bar `studio-diagnostics`
-> flow remains the **fallback** when MCP isn't connected (Studio closed, or exports too big for a tool call).
+> non-trivial or hard-to-reverse Studio change before applying it. **Always verify terrain/scene edits**
+> by reading them back (`Terrain:ReadVoxels` / `inspect_instance`) **and** `screen_capture` before
+> reporting done — never assume a `Fill`/edit worked. The Command Bar `studio-diagnostics` flow remains
+> the **fallback** when MCP isn't connected (Studio closed, or exports too big for a tool call).
 
 ## 3. Building GUIs
 
