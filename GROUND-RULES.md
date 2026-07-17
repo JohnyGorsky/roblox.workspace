@@ -60,6 +60,17 @@ Studio-side step is done.
 - Claude produces prompts/checklists and the integration code; the **human** does the actual
   generation, publishing, and import in Studio, then supplies IDs.
 
+**Claude can also source assets directly via the Studio MCP — always present candidates for approval
+before using them:**
+- **Creator Store search** (`search_asset`) — find existing **models, meshes, images/decals, and
+  audio** already on Roblox (free or paid), then `insert_asset`. Good for props, kits, SFX, music.
+- **AI generation in Studio** — `generate_mesh`, `generate_material`, `generate_procedural_model`.
+- **Upload** — `upload_image`/`store_image` for images the human made (e.g. **ChatGPT-generated art**,
+  **Flaticon** icons) — hand Claude the file/ID and Claude wires it in.
+- Human-preferred external sources stay: **Pixabay** (sound), **Flaticon** (icons), **ChatGPT (paid)**
+  for design/art, **Meshy.ai** for custom 3D. Claude proposes → **human approves** → Claude integrates.
+  Respect each source's license/attribution; Roblox moderates uploaded images/audio.
+
 ## 5. Job discipline
 
 - Lifecycle: `intake.md` (what we plan) → `implementation-plan.md` (investigate, answer questions,
