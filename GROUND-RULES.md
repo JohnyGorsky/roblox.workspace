@@ -10,7 +10,8 @@ conflicts with anything else, the ground rule wins. Claude must follow these wit
   seems to imply it.
 - **Always ask via the wizard.** When Claude needs a decision or clarification, ask through the
   interactive **AskUserQuestion** interface — not as a plain-text list of questions.
-- **We only work through jobs.** No ad-hoc changes. See §5.
+- **Job-first, always.** Every change starts as an explicit job — even small ones. No ad-hoc
+  changes. Describe the work, I open the job (`intake`), and we proceed through the lifecycle. See §5.
 - **Every job declares its project** (`workspace` / `defender` / `jungle`) and touches only that one.
 
 ## 2. Human ↔ Claude division of labour
@@ -32,6 +33,11 @@ conflicts with anything else, the ground rule wins. Claude must follow these wit
 
 When work needs a human action, Claude states it explicitly and waits — it does not pretend a
 Studio-side step is done.
+
+> **Studio access is changing.** A Roblox Studio MCP is being set up (workspace Job 002) so Claude can
+> read the live Studio tree, run diagnostics, and apply changes directly. Once it's in, this Studio
+> half of the split shrinks — Claude does more in Studio itself; the human still presses Play,
+> observes gameplay, and commits. Until it's live, the manual handoff above stands.
 
 ## 3. Building GUIs
 
