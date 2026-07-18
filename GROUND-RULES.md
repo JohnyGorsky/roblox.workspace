@@ -77,6 +77,16 @@ before using them:**
   for design/art, **Meshy.ai** for custom 3D. Claude proposes → **human approves** → Claude integrates.
   Respect each source's license/attribution; Roblox moderates uploaded images/audio.
 
+**Asset policy (mandatory — full workflow in the `roblox-assets` skill):**
+- **Our assets first.** Search our own inventory + the game's **asset registry** before any public search.
+- **Present before use.** Claude shows candidate assets (name/id/type/source/license) and **only uses one
+  after the human approves it** — never insert into the live game or use an asset unverified.
+- **Scan every inserted asset for scripts and delete any not needed.** Inserted Models can hide backdoor
+  `Script`/`LocalScript`/`ModuleScript`s — scan (`GetDescendants` → `IsA("LuaSourceContainer")`) in
+  isolation, delete anything Claude didn't author, and **never Play before scanning**.
+- **Maintain the asset registry** — each game's `Assets/registry/` (markdown per asset type) lists what we
+  created vs used, with ids/source/license/location, so we reuse before re-sourcing.
+
 ## 5. Job discipline
 
 - Lifecycle: `intake.md` (what we plan) → `implementation-plan.md` (investigate, answer questions,
