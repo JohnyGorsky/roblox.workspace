@@ -40,7 +40,7 @@ except Exception:
 PROJECTS = {
     "workspace": ".",          # this repo
     "defender": "../roblox.defender",
-    "jungle": "../roblox.jungle",
+    "jungle": "../roblox.jungle.game",
 }
 
 WORKSPACE_ROOT = Path(__file__).resolve().parent.parent
