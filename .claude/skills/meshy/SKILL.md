@@ -57,6 +57,9 @@ downloads the package (brief). Alt (per-machine, off-git):
 Studio via the **Studio MCP** (`insert_asset`/`execute_luau`). The DCC "Send to Roblox" is the only non-API
 step and it's skippable. Also: `convert`, `resize`, `uv_unwrap`, `list_tasks`, `cancel_task`, **`check_balance`**,
 `list_models`, `text_to_image`/`image_to_image`. An agent (e.g. `roblox-chars`) can drive the whole chain.
+- The MCP server **enforces cost confirmation** — always present the credits + plan and get the user's OK
+  before any generation tool (matches our present-before-use asset policy). Decide **`target_formats`** (e.g.
+  `glb`/`fbx` for Roblox) at creation time — it can't be changed after. `check_balance` is free.
 
 ## Credits (this account)
 
