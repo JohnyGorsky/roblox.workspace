@@ -35,14 +35,31 @@ Auto-rig needs a **textured humanoid biped, facing +Z, feet grounded, T-pose**. 
   `roblox-animation` (Adaptive Animation / HumanoidRigDescription) to get it moving as a Humanoid.
 - **Then:** run the mandatory asset **security scan** and **log it in the shared asset registry** (`roblox-assets`).
 
-## Automate (Pro API + MCP)
+## The Meshy MCP — connected (`roblox.workspace/.mcp.json`)
 
-The whole pipeline (prompt → 3D → remesh → texture → rig → animate → `download_model`) is scriptable via the
-REST API (key `msy_…`, Pro 20 RPS/10 concurrent, poll or SSE/webhook) — and there's an **official MCP server**
-(`@meshy-ai/meshy-mcp-server`, 24 tools) + **Agent Skill** (`meshy-3d-agent`). Install the Meshy MCP alongside
-the Studio MCP and an agent can run generation headless, then hand the downloaded GLB/FBX to Studio for import
-(the Bridge's "Send to Roblox" is the only non-API step — skippable). *Setting up the Meshy MCP is a candidate
-follow-up job.*
+Registered in the committed `roblox.workspace/.mcp.json` as server **`meshy`**:
+`npx -y @meshy-ai/meshy-mcp-server` with `MESHY_API_KEY` in its `env` (the key is stored there — the repo is
+private, single-owner). Needs **Node/npx** (v20 present). **Activate:** restart Claude Code → **approve** the
+project-scoped MCP server → verify with `/mcp` or `claude mcp list` ("meshy ✓"). First launch runs `npx` which
+downloads the package (brief). Alt (per-machine, off-git):
+`claude mcp add --transport stdio --scope user --env MESHY_API_KEY=<key> meshy -- npx -y @meshy-ai/meshy-mcp-server`.
+- **Webhooks NOT needed** — the MCP **polls** (`get_task_status`) / SSE-streams; webhooks only matter for a
+  server *you* host. Leave Meshy's Webhooks section empty.
+- If the key ever leaks (it's in git history + our chat), rotate it in Meshy → Settings → API and update `.mcp.json`.
+
+## Using the MCP (24 tools) — headless pipeline
+
+`text_to_3d` / `image_to_3d` / `multi_image_to_3d` → poll **`get_task_status`** (or `wait_job_finished`) →
+`remesh` → `retexture` → `rig` → `animate` (pick `action_id`s) → **`download_model`** (GLB/FBX) → import into
+Studio via the **Studio MCP** (`insert_asset`/`execute_luau`). The DCC "Send to Roblox" is the only non-API
+step and it's skippable. Also: `convert`, `resize`, `uv_unwrap`, `list_tasks`, `cancel_task`, **`check_balance`**,
+`list_models`, `text_to_image`/`image_to_image`. An agent (e.g. `roblox-chars`) can drive the whole chain.
+
+## Credits (this account)
+
+~**1,440** available (**830 monthly + 610 permanent**); monthly resets, no rollover. Budget: a rigged+animated
+character ≈ **40–50 cr** (preview 20 + refine 10 + rig 5 + animations 3 ea); a textured prop ≈ 15–30 cr. Run
+`check_balance` before big batches; **failed tasks refund credits**.
 
 ## Credits & license
 Pro = 1000 cr/mo (no rollover); a rigged+animated character ≈ 40–50 cr (preview 20 + refine 10 + rig 5 +

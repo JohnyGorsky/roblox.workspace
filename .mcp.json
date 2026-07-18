@@ -3,6 +3,11 @@
     "Roblox_Studio": {
       "command": "cmd.exe",
       "args": ["/c", "cd /d %LOCALAPPDATA%\\Roblox && .\\mcp.bat"]
+    },
+    "meshy": {
+      "command": "npx",
+      "args": ["-y", "@meshy-ai/meshy-mcp-server"],
+      "env": { "MESHY_API_KEY": "msy_IAQXlJMBosUVUqxlC4w0rq2nad80z1K7mXHS" }
     }
   }
 }
