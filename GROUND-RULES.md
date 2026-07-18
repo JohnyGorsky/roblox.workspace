@@ -98,6 +98,14 @@ before using them:**
 - `changelog.md` is player-facing marketing copy (3–6 short bullets, one emoji per line, no code/file
   names). The technical detail lives in `final-summary.md`.
 
+**Capture queues (each project has `todo/` and `findings/`):**
+- **`todo/`** — quick tasks/thoughts/reminders, numbered `NNNN` (0000+), `Status: open → resolved`.
+  Lighter than `Planned/` (future *features* that become Jobs).
+- **`findings/`** — bugs noticed mid-flight but deferred, numbered `NNNN`, `Status: open → fixed`.
+- Capture fast so nothing's lost: `job.py todo` / `job.py finding`; mark done with `job.py resolve`; see
+  the queue with `job.py list <todo|finding> [--open]`. Promote anything that's real work into a **Job**.
+  When you notice a bug you won't fix now, **log a finding** rather than dropping it.
+
 ## 6. Always-use skills
 
 Before doing the matching work, Claude **must** consult the relevant skill rather than guessing:

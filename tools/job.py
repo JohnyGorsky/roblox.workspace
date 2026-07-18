@@ -26,6 +26,7 @@ Design notes:
 
 import argparse
 import json
+import re
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -232,6 +233,110 @@ def cmd_release(args):
     print(f"Created changelog stub: {changelog}")
 
 
+# --------------------------------------------------------------------------- todo / findings
+
+# kind -> (folder name, header word, done word)
+KINDS = {
+    "todo": ("todo", "TODO", "resolved"),
+    "finding": ("findings", "FINDING", "fixed"),
+}
+
+
+def slugify(title: str) -> str:
+    s = re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")
+    return s[:40] or "item"
+
+
+def kind_dir(project: str, kind: str) -> Path:
+    d = project_root(project) / KINDS[kind][0]
+    d.mkdir(parents=True, exist_ok=True)
+    return d
+
+
+def next_entry_number(project: str, kind: str) -> int:
+    nums = []
+    for p in kind_dir(project, kind).glob("[0-9][0-9][0-9][0-9]-*.md"):
+        try:
+            nums.append(int(p.name[:4]))
+        except ValueError:
+            pass
+    return (max(nums) + 1) if nums else 0
+
+
+def find_entry(project: str, kind: str, num: int):
+    for p in kind_dir(project, kind).glob(f"{num:04d}-*.md"):
+        return p
+    return None
+
+
+def cmd_todo(args):
+    d = kind_dir(args.project, "todo")
+    num = next_entry_number(args.project, "todo")
+    path = d / f"{num:04d}-{slugify(args.title)}.md"
+    path.write_text(
+        f"""# TODO {num:04d}: {args.title}
+
+**Project:** `roblox.{args.project}`
+**Status:** open
+**Created:** {now()}
+
+{args.note or "_(the thought/task; expand here, or promote to a Job when it's real work)_"}
+""",
+        encoding="utf-8",
+    )
+    print(f"Created TODO {num:04d} [{args.project}]: {args.title}\n  {path}")
+
+
+def cmd_finding(args):
+    d = kind_dir(args.project, "finding")
+    num = next_entry_number(args.project, "finding")
+    path = d / f"{num:04d}-{slugify(args.title)}.md"
+    path.write_text(
+        f"""# FINDING {num:04d}: {args.title}
+
+**Project:** `roblox.{args.project}`
+**Status:** open
+**Severity:** {args.severity}
+**Created:** {now()}
+
+**Symptom:** {args.symptom or "_TODO_"}
+**Where:** {args.where or "_TODO: file / system_"}
+**Repro / notes:** _TODO_
+**Fix idea:** _TODO_
+""",
+        encoding="utf-8",
+    )
+    print(f"Created FINDING {num:04d} [{args.project}] ({args.severity}): {args.title}\n  {path}")
+
+
+def cmd_resolve(args):
+    path = find_entry(args.project, args.kind, args.num)
+    if not path:
+        sys.exit(f"{args.kind} {args.num:04d} not found in {args.project}.")
+    done = KINDS[args.kind][2]
+    note = f" — {args.note}" if args.note else ""
+    text = path.read_text(encoding="utf-8")
+    new = re.sub(r"(?m)^\*\*Status:\*\* .*$",
+                 f"**Status:** {done} ({now()[:10]}){note}", text, count=1)
+    path.write_text(new, encoding="utf-8")
+    print(f"Marked {args.kind} {args.num:04d} [{args.project}] {done}.")
+
+
+def cmd_list(args):
+    entries = sorted(kind_dir(args.project, args.kind).glob("[0-9][0-9][0-9][0-9]-*.md"))
+    shown = 0
+    for p in entries:
+        m = re.search(r"(?m)^\*\*Status:\*\* (.+)$", p.read_text(encoding="utf-8"))
+        status = (m.group(1).strip() if m else "?")
+        is_open = status.startswith("open")
+        if args.open_only and not is_open:
+            continue
+        print(f"{'[ ]' if is_open else '[x]'} {p.name[:4]} {p.name[5:-3]}  ({status})")
+        shown += 1
+    if shown == 0:
+        print(f"No {'open ' if args.open_only else ''}{args.kind}s in {args.project}.")
+
+
 # --------------------------------------------------------------------------- cli
 
 def build_parser():
@@ -267,6 +372,33 @@ def build_parser():
     add_project(r)
     r.add_argument("num", type=int)
     r.set_defaults(func=cmd_release)
+
+    t = sub.add_parser("todo", help="Add a quick todo (todo/NNNN).")
+    add_project(t)
+    t.add_argument("title")
+    t.add_argument("note", nargs="?")
+    t.set_defaults(func=cmd_todo)
+
+    f = sub.add_parser("finding", help="Log a deferred bug (findings/NNNN).")
+    add_project(f)
+    f.add_argument("title")
+    f.add_argument("symptom", nargs="?")
+    f.add_argument("--severity", default="med", choices=["low", "med", "high"])
+    f.add_argument("--where")
+    f.set_defaults(func=cmd_finding)
+
+    rs = sub.add_parser("resolve", help="Mark a todo/finding resolved/fixed.")
+    add_project(rs)
+    rs.add_argument("kind", choices=["todo", "finding"])
+    rs.add_argument("num", type=int)
+    rs.add_argument("note", nargs="?")
+    rs.set_defaults(func=cmd_resolve)
+
+    ls = sub.add_parser("list", help="List todos/findings ([ ]=open, [x]=done).")
+    add_project(ls)
+    ls.add_argument("kind", choices=["todo", "finding"])
+    ls.add_argument("--open", dest="open_only", action="store_true", help="only open items")
+    ls.set_defaults(func=cmd_list)
 
     return p
 
