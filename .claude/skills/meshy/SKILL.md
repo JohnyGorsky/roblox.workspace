@@ -45,6 +45,9 @@ downloads the package (brief). Alt (per-machine, off-git):
 `claude mcp add --transport stdio --scope user --env MESHY_API_KEY=<key> meshy -- npx -y @meshy-ai/meshy-mcp-server`.
 - **Webhooks NOT needed** — the MCP **polls** (`get_task_status`) / SSE-streams; webhooks only matter for a
   server *you* host. Leave Meshy's Webhooks section empty.
+- **Gotcha (hit on first setup):** if it won't start with `Cannot find module './db.json'` / MODULE_NOT_FOUND
+  (a corrupted npx cache, not Meshy), fix it: `npm cache clean --force` + delete `%LOCALAPPDATA%\npm-cache\_npx`,
+  then reload Claude Code. Verified working: key validated, 24 tools registered.
 - If the key ever leaks (it's in git history + our chat), rotate it in Meshy → Settings → API and update `.mcp.json`.
 
 ## Using the MCP (24 tools) — headless pipeline
