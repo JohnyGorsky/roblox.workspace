@@ -84,8 +84,9 @@ before using them:**
 - **Scan every inserted asset for scripts and delete any not needed.** Inserted Models can hide backdoor
   `Script`/`LocalScript`/`ModuleScript`s — scan (`GetDescendants` → `IsA("LuaSourceContainer")`) in
   isolation, delete anything Claude didn't author, and **never Play before scanning**.
-- **Maintain the asset registry** — each game's `Assets/registry/` (markdown per asset type) lists what we
-  created vs used, with ids/source/license/location, so we reuse before re-sourcing.
+- **Maintain the shared asset registry** — the single cross-project catalog at
+  `roblox.workspace/Assets/registry/` (markdown per asset type) lists what we created vs used across all
+  games (with ids/source/license/project/location), so we reuse before re-sourcing. Grep it before sourcing.
 
 ## 5. Job discipline
 

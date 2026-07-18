@@ -1,6 +1,6 @@
 ---
 name: roblox-assets
-description: Roblox asset management & sourcing workflow for any game in this workspace — asset types & storage, finding assets (our inventory first, then Creator Store), licensing, the mandatory SECURITY scan (inserted models can hide backdoor scripts — scan & delete), the present-for-approval rule, and maintaining the per-game asset registry (what we created vs used). Use before searching for, inserting, or using ANY asset (model/mesh/image/audio/animation), or when organizing/where-to-store assets.
+description: Roblox asset management & sourcing workflow for any game in this workspace — asset types & storage, finding assets (our inventory first, then Creator Store), licensing, the mandatory SECURITY scan (inserted models can hide backdoor scripts — scan & delete), the present-for-approval rule, and maintaining the shared workspace asset registry (what we created vs used, across all games). Use before searching for, inserting, or using ANY asset (model/mesh/image/audio/animation), or when organizing/where-to-store assets.
 ---
 
 # Roblox assets — sourcing, security & registry
@@ -29,13 +29,14 @@ below are authoritative (also in `GROUND-RULES.md §4`).
    `ReplicatedStorage`; world content → `Workspace`. Dedupe by id (reuse one `MeshId`/image/`SoundId`).
 5. **Log it in the registry** (below).
 
-## Our-assets-first + registry (the asset catalog)
+## Our-assets-first + the SHARED registry (the asset catalog)
 
-Each game keeps an **asset registry** — markdown, one file per asset type — listing **what we created**
-and **what we used** (with ids, source, license, where stored). It's our fast, greppable catalog so we
-reuse before re-sourcing. Location: `roblox.<game>/Assets/registry/` (see the scaffolded files + `_TEMPLATE.md`).
-Update it whenever an asset is added. Format per entry:
-`| name | rbxassetid | type | ours/created or source | license | stored-at | notes |`
+There is **one shared, cross-project asset registry** in the workspace so assets are reusable across all
+games: **`roblox.workspace/Assets/registry/`** — markdown, one file per asset type (models/meshes/images/
+audio/animations/ui), listing **what we created** and **what we used**, tagged by **Project(s)**. It's our
+fast, greppable catalog — **grep it before sourcing anything**. Update it whenever an asset is added to any
+game. Format per entry:
+`| name | rbxassetid | project(s) | ours/created or source | license | stored-at | scanned? | notes |`
 
 ## Sourcing options (in priority order)
 
