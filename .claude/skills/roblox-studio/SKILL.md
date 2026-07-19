@@ -21,6 +21,23 @@ build (`multi_edit`/`insert_asset`/`generate_mesh|material`), and **playtest** (
 - Playtest loop: `start_stop_play` → drive with input tools → `get_console_output` + `screen_capture`.
 - Studio must be open with the place loaded; `set_active_studio` if multiple.
 
+## MCP testing gotchas (learned the hard way — Job 022)
+
+- **`execute_luau` runs in a SEPARATE Luau context from the running game scripts.** Its `require(Module)`
+  returns a *fresh* module instance with its own upvalue state (a ModuleScript's private `cache`/tables).
+  So a service getter called there (e.g. `Profiles.getGold`) reads that fresh instance's empty state, NOT
+  what the game credited. **Verify game state via SHARED Instances** — player attributes, `leaderstats`,
+  `Workspace` attributes, or the DataStore directly — never via a module's private in-memory tables.
+- **Play-mode and Edit-mode DataStore access don't reliably share the same data.** A key cleared with
+  `RemoveAsync` from an *Edit*-mode `execute_luau` may still exist in the *Play* server. Clear/seed test
+  profiles from the **Play (Server datamodel)** context. A non-stale leftover session lock will make a
+  session-locked load fall back to a non-saving in-memory profile — start persistence tests from a
+  genuinely clean profile.
+- **Forcing an end-state:** systems that continuously write an attribute each frame (e.g. `BoatServer`
+  rewrites `Workspace.BoatDistance` from the hull) will clobber a manual override — change the *threshold*
+  instead (e.g. set `RiverEndDistance = 0`) to trip a monitor.
+- Some emoji (e.g. 🪙) render as a tofu box in Roblox `TextLabel`s — avoid them in UI text.
+
 ## Which Studio tool for the job
 
 - **Hand-sculpt hero terrain** → Terrain Editor (Generate/Sculpt/Sea Level). Scripted/procedural terrain →
