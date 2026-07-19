@@ -28,11 +28,15 @@ build (`multi_edit`/`insert_asset`/`generate_mesh|material`), and **playtest** (
   So a service getter called there (e.g. `Profiles.getGold`) reads that fresh instance's empty state, NOT
   what the game credited. **Verify game state via SHARED Instances** — player attributes, `leaderstats`,
   `Workspace` attributes, or the DataStore directly — never via a module's private in-memory tables.
-- **Play-mode and Edit-mode DataStore access don't reliably share the same data.** A key cleared with
-  `RemoveAsync` from an *Edit*-mode `execute_luau` may still exist in the *Play* server. Clear/seed test
-  profiles from the **Play (Server datamodel)** context. A non-stale leftover session lock will make a
-  session-locked load fall back to a non-saving in-memory profile — start persistence tests from a
-  genuinely clean profile.
+- **Session locks (not a Play/Edit data split) cause "stale profile" symptoms.** Edit-mode DataStore
+  writes DO appear in Play (verified Job 025 — an Edit `SetAsync` profile loaded fine in Play). What bit
+  us earlier was a non-stale **leftover session lock** sending the load to a non-saving in-memory fallback.
+  So **seed/reset test profiles from Edit via `SetAsync` with NO `__lock`**, and start persistence tests
+  from a genuinely clean, unlocked profile.
+- **Work around the separate VM when testing:** test a server `RemoteFunction` with a **Client**-context
+  `execute_luau` calling `rf:InvokeServer(...)` (hits the real server + real profile); test a load-driven
+  path by **seeding the DataStore** (Edit `SetAsync`, no lock) and letting the game load it — don't mutate
+  module state in `execute_luau` (different VM copy).
 - **Forcing an end-state:** systems that continuously write an attribute each frame (e.g. `BoatServer`
   rewrites `Workspace.BoatDistance` from the hull) will clobber a manual override — change the *threshold*
   instead (e.g. set `RiverEndDistance = 0`) to trip a monitor.
