@@ -46,6 +46,36 @@ shapes.
 
 ---
 
+## 1b. 🔴 BOUND THE EDIT — the rule that matters most
+
+**Before writing terrain, state the maximum extent of the change and make the code physically unable to
+exceed it.** A profile that "blends back to the surroundings" is *not* a bound — it will happily cut a
+mountain in half if the mountain happens to be inside its radius.
+
+Two guards, both cheap, both mandatory on any edit near hand-sculpted terrain:
+
+```lua
+local MAX_DX = 110        -- studs either side of the feature's centreline (channel 75 + bank 35)
+local MAX_Y  = 40         -- never modify a voxel above this
+if math.abs(dx) > MAX_DX then continue end
+if wy > MAX_Y then continue end          -- <-- this one alone prevents wrecking hillsides
+```
+
+**Real incident (Job #071).** A river valley was shaped out to **225 studs** either side of the channel,
+blending toward a reference height sampled at 300. Where the hillside rose steeply *inside* that band
+but the reference column beyond it sat lower, the profile treated the mountain as terrain to cut down —
+flattening a **~400-stud-wide plateau to exactly `BANK_MIN`** and leaving 22 floating rock columns
+sheared off at the cut edge. The river needed ~40 studs of bank. A `MAX_Y` guard would have stopped it
+dead, because the river never needs to touch anything above ~25.
+
+**Corollaries**
+
+- **A blend target sampled far away is dangerous**: it says nothing about what lies between. Either
+  clamp the profile to `min(profile, existingHeight)` outside the channel, or refuse to touch columns
+  whose existing surface is already above the target.
+- **Never let a "shape the valley" pass double as a "flatten the surroundings" pass.**
+- Prefer editing a small band well and leaving the rest alone over one big elegant profile.
+
 ## 2. Verify EVERY edit — never assume
 
 After any terrain write: **read it back** at representative points **and** `screen_capture`, then
