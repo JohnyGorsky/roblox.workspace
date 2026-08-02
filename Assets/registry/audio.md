@@ -62,3 +62,30 @@ All 11 IDs verified in Studio 2026-07-30 (`GetProductInfo` → name match, Asset
 | rank_completed_or_mission_completed | 135669512865613 | jungle | rank-up / mission-complete stinger |
 | footsteps_wood | 74260976253608 | jungle | footsteps on wood (dock, stall decks) |
 | running_on_sand | 113877578461119 | jungle | running on sand (airfield clearing) |
+
+### GAME place — plane-crash intro, uploaded 2026-08-02 (Job #072)
+
+The cold-open sequence: the crew rides a plane in from the west, the engine fails, it dives and crashes
+at the spawn base, and they wake in the wreckage. **Uploaded + owned; wiring is Job #072 step 3.**
+
+**2D** = non-positional (heard in the cabin / in your head). **Positional** = attached to the plane or
+the wreck, so it moves and falls off with distance.
+
+| Name | rbxassetid (SoundId) | Project | Role in the sequence |
+|------|----------------------|---------|----------------------|
+| plane_flying | 131906456545456 | jungle | prop-engine drone — **2D loop**, the bed under the whole cruise |
+| engine_fail | 109868059978369 | jungle | engine sputter/stall — 2D one-shot, cues the descent |
+| stall_alarm | 112730854260419 | jungle | cockpit warning — 2D short loop, stall → impact (keep low under the engine) |
+| wind_rush | 96421007219531 | jungle | dive rush — 2D loop, **fade IN across the 9 s descent**, don't play flat |
+| crash_sound | 107234930559671 | jungle | 🔴 the impact — 2D one-shot; the cut to black lands on this |
+| metal_debris | 139877854727588 | jungle | wreckage settling — **positional @ wreck**, ~1–2 s after impact |
+| ear_ringing | 134266191078049 | jungle | tinnitus as you come round — 2D one-shot, fading |
+| fire_sound | 99475771894138 | jungle | burning wreck — **positional @ wreck**, loop; full for ~45 s then fades to smoke |
+
+> **Why a new fire sound when `crackle-campfire` exists:** the campfire loop (`113774133604878`, wired in
+> the lobby) is a small domestic fire and reads far too thin for a burning aircraft. It is still useful
+> **layered underneath** `fire_sound` for close-up crackle. Also unuploaded locally:
+> `assets/Objects/Boat/Sounds/boat_on_fire.mp3`.
+>
+> **Not sourced (optional, low priority):** a distant plane pass to foreshadow the aircraft before it
+> clears the ridge.

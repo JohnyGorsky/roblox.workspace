@@ -91,6 +91,30 @@ Measure the thing you are claiming, not a proxy:
 ⚠️ **`screen_capture` with `camera_position` leaves the camera `Scriptable` and locks the user's
 navigation — restore `CameraType = Custom` afterwards** (memory: `screen-capture-locks-camera`).
 
+### 🔴 Your PROBE region silently clips what you measure
+
+A `ReadVoxels` region with a Y ceiling of 40 reports **every taller column as 40** — it cannot see
+above its own box. Job #071: a bank was diagnosed as "a 28-stud cliff topping out at 40", a grading
+pass was written against that, and the real ground was **76–104**. Re-probing with the ceiling at 60
+made the same columns read 60; only a ceiling of 200 showed the truth.
+
+**Size probe regions to the terrain's true range, not to the feature you are thinking about** — and if
+a measurement returns suspiciously many columns at exactly your region's ceiling, that is the tell.
+
+### 🔴 Verify in a SEPARATE call, not right after the write
+
+Re-reading immediately after `WriteVoxels` **in the same script** can return pre-write data. Job #071:
+a repair reported *"45 columns fixed"* and its own verification printed a byte-identical histogram —
+the write had not applied at all. Only a fresh `execute_luau` call revealed it.
+
+If a verification result is *exactly* the same as the pre-fix numbers, suspect a stale read or a no-op
+write before you believe the fix worked.
+
+### Don't invent pass/fail thresholds
+
+"More than 20,000 voxels means intact" is a made-up number that will report false failures. State the
+measurement and what it means; only assert pass/fail against a threshold you can justify.
+
 ---
 
 ## 3. Coordinate arithmetic that is easy to get wrong
@@ -121,6 +145,18 @@ a *material* competing with ground for the same voxel.
 
 The older `ReadVoxels`/`WriteVoxels` treat water as `Enum.Material.Water` and still work — most existing
 code in this workspace uses them — but new water work should prefer channels.
+
+> 🔴 **The legacy API CANNOT repair a solid+liquid voxel, and fails silently when you try.**
+> A voxel can hold partial solid *and* water at once (e.g. `Mud 0.5` floating on water). `ReadVoxels`
+> exposes only one material per voxel, so it reports `Mud 0.5` and **hides the water underneath** — a
+> read-modify-write through it cannot express "no solid, full liquid" and the write does nothing.
+>
+> Job #071: hand-sculpting left a thin partial-mud lid over the river. Two legacy repair passes each
+> reported success and changed nothing. `ReadVoxelChannels`/`WriteVoxelChannels` fixed it in one go —
+> 508 solid voxels dissolved, 451 liquid set to full — because they can address `SolidOccupancy` and
+> `LiquidOccupancy` independently.
+>
+> **If terrain and water are tangled in the same voxels, reach for channels immediately.**
 
 ### 🔴 The shelf artifact — never let land sit at the waterline
 
