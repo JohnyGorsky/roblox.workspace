@@ -25,3 +25,9 @@ search)**. All Defender (mob + player anims). See [README](README.md).
 | Meshy_AI Animation Running | 118278640765511 | defender | Meshy run |
 | Dragon walk | 112727344624064 | defender | mob |
 | DodgeRight | 111937688449200 | defender | player dodge |
+
+## Jungle / Last River — our uploads (added 2026-07-20)
+
+| Name | AnimationId | Project | Notes |
+|------|-------------|---------|-------|
+| Pilot idle | 71254620030056 | jungle | Meshy pilot NPC idle loop; plays via `PilotIdle.server.luau` on the lobby Pilot's AnimationController/Animator |

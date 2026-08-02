@@ -13,6 +13,10 @@ conflicts with anything else, the ground rule wins. Claude must follow these wit
 - **Job-first, always.** Every change starts as an explicit job — even small ones. No ad-hoc
   changes. Describe the work, I open the job (`intake`), and we proceed through the lifecycle. See §5.
 - **Every job declares its project** (`workspace` / `defender` / `jungle`) and touches only that one.
+- **Never edit a script outside the system/place you were asked to work on — confirm first.** A game
+  can have multiple Rojo places (e.g. Jungle: GAME `/sync/` vs LOBBY `/lobby/sync/`). Identify which
+  place/system owns a file before editing it; editing across that boundary needs explicit permission.
+  When unsure whether a file is in scope, ask via the wizard.
 
 ## 2. Human ↔ Claude division of labour
 
