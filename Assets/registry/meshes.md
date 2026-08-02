@@ -85,8 +85,14 @@ LOBBY place**, and until now their ids were recorded **nowhere but the `.rbxl`**
 could not reuse them either. That is the gap this section closes.
 
 Like the boat parts above, **the mesh id is not how the game finds these.** Scripts bind to stations by
-the `Station` **attribute** (`LobbyStations`), never by mesh or model name — so the two misspellings
-below are harmless. The ids are recorded for **re-import and traceability**.
+the `Station` **attribute** (`LobbyStations`, and since Job #074 the GAME place's `StartShopServer` too),
+never by mesh or model name — so the two misspellings below are harmless. The ids are recorded for
+**re-import and traceability**.
+
+> ⚠️ **A station mesh dropped into a place imports with `CollisionFidelity = Box`.** On the Robux Shop
+> hut (15 × 18.8 × 20) that is an invisible 20-stud cube — the counter and the space under the eaves are
+> sealed and you cannot walk up to it. Set `PreciseConvexDecomposition` **in Edit and save the place**;
+> a runtime script cannot write the property. Caught on the game-place copy in Job #074.
 
 | In-place name | MeshId | What it is | Where |
 |---|---|---|---|
@@ -94,7 +100,7 @@ below are harmless. The ids are recorded for **re-import and traceability**.
 | `char1` | 108352617907497 | **The Pilot NPC body** (22-bone rig; idle anim `71254620030056`) | `workspace.Pilot` · `AssetLibrary/Characters/Pilot` |
 | `SkillTrainer` | 107408955523438 | Skill Trainer stall (blue awning + chalkboard) | `AssetLibrary/Structures/SkillTrainer` |
 | `Boutnies` ⚠️ *(sic)* | 119564283624615 | **Bounties** stall — misspelled in the place | `AssetLibrary/Structures/Bounties` |
-| `RobuxhShop` ⚠️ *(sic)* | 81119390187013 | **Robux Shop** kiosk — misspelled in the place | `AssetLibrary/Structures/RobuxShop` |
+| `RobuxhShop` ⚠️ *(sic)* | 81119390187013 | **Robux Shop** kiosk — misspelled in the place. **Used in BOTH jungle places** (Job #074) | LOBBY `AssetLibrary/Structures/RobuxShop` · GAME `Workspace.SpawnBase.Stands.RobuxShop` |
 | `BoatUpgrade` | 118860073556013 | Boat Upgrades mechanic rig at the dock | `AssetLibrary/Structures/BoatUpgrades` |
 | `RunWay` | 114620021340964 | Airstrip tile — **6 instances**, z −154 → −485 | `Scenery.RunWay` ×6 · `AssetLibrary/Plane/RunWay` |
 | `Mesh1.0` ❓ | 139814217941669 | **UNIDENTIFIED** — generic Meshy name, someone should look at what it actually is. Distinct from the `Mesh1.0` Defender ids at the top of this file | lobby place |
