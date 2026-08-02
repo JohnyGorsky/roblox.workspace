@@ -39,22 +39,60 @@ Terrain:WriteVoxels(region: Region3, resolution: number, materials, occupancies)
 - Arrays are **1-based `[x][y][z]`** (x outermost). Both have a `.Size` field = voxel dims = `region.Size / 4`.
 - `materials[x][y][z]` is an `Enum.Material` (use `.Name`); `occupancies[x][y][z]` is 0..1.
 - Build regions grid-aligned: `Region3.new(min, max):ExpandToGrid(4)`.
-- **`WriteVoxels` must run in the serial phase** — `task.synchronize()` first if parallel. Array dims
-  must exactly match the grid-aligned region or it errors.
+- **`resolution` must be `4`** — the docs state it as the only supported value, for both read and write.
+- 🔴 **HARD LIMIT — the docs state it verbatim: "Will throw an error if region is too large. The limit
+  is currently 4194304 voxels."** Applies to `ReadVoxels`, `WriteVoxels` and `ReadVoxelChannels`.
+  It **throws** — so `pcall(...)` without checking the result turns an oversized region into a **silent
+  no-op that looks like success**. Compute `(X/4)*(Y/4)*(Z/4)` before calling, and slab anything bigger.
+- **`WriteVoxels` must run in the serial phase** — `task.synchronize()` first if parallel. `ReadVoxels`
+  is thread-safe; `WriteVoxels` is not. Array dims must exactly match the grid-aligned region or it errors.
 - **Sampling a point/column:** read the smallest grid-aligned region around it and index `[1][y][1]`.
   There is no `GetVoxel`; `GetCell`/`SetCell`/`GetWaterCell`/`SetWaterCell` are **deprecated legacy**.
-- **Channel API** (read/write water independently): `ReadVoxelChannels` / `WriteVoxelChannels` with
-  channel ids `"SolidMaterial"`, `"SolidOccupancy"`, `"LiquidOccupancy"` **[approx — verify names in Studio]**.
+- **A voxel's world position is its CENTRE.** `wy = base.Y + (yi - 0.5) * 4`, so a *surface* is the top
+  voxel's centre **+ 2**. Comparing centres to target surfaces is an off-by-2 bug.
+
+## Channel API (verified — prefer for anything involving water)
+
+```lua
+local data = Terrain:ReadVoxelChannels(region: Region3, resolution: number, channelIds: {string}): Dictionary
+Terrain:WriteVoxelChannels(region: Region3, resolution: number, channels: Dictionary): ()
+```
+
+Channel ids, **confirmed in the official docs sample**: `"SolidMaterial"`, `"SolidOccupancy"`,
+`"LiquidOccupancy"`. Returned as parallel 3D arrays under those keys.
+
+- Water becomes an independent **liquid** channel instead of a material competing for the voxel, which
+  removes most water-vs-ground fighting.
+- **A voxel cannot be both**: the docs' own sample enforces `if solidOccupancy > 1 - EPSILON then
+  liquid = 0` with the comment *"Solids cannot contain water"*.
 
 ## Other ops
 
 ```lua
 Terrain:ReplaceMaterial(region, resolution, sourceMaterial, targetMaterial)  -- find & replace material
-Terrain:Clear()                                        -- wipe all terrain
+Terrain:Clear()                                        -- wipe ALL terrain (see warning below)
+Terrain:CountCells(): int                              -- non-empty cell count
 Terrain:CopyRegion(region: Region3int16) -> TerrainRegion
 Terrain:PasteRegion(region: TerrainRegion, corner: Vector3int16, pasteEmptyCells: boolean)
 Terrain:WorldToCell(pos) / CellCenterToWorld(x,y,z) / CellCornerToWorld(x,y,z)
 ```
+
+### Copy / Paste — cell coordinates, verified
+
+- `CopyRegion` takes a **`Region3int16`**, `PasteRegion` a **`Vector3int16`** corner — both in **CELL**
+  units (1 cell = 4 studs). Passing a `Region3` fails with *"Unable to cast Region3 to Region3int16"*.
+- ⚠️ **Translation is therefore quantised to 4 studs.** An 18-stud shift cannot be expressed; 16 or 20
+  only. Derive offsets **surface-to-surface**, not centre-to-level.
+- `pasteEmptyCells = true` → exact paste (empty cells clear existing terrain). `false` → overlay solids.
+- **`TerrainRegion` data does NOT replicate between server and client** (stated in the docs). It is,
+  however, an `Instance`, which is what makes it the transport for moving terrain **between places** via
+  the Studio clipboard.
+
+### ⚠️ `Terrain:Clear()`
+
+Wipes everything, including hand-sculpted hero terrain. Any `Clear()` at server boot will erase the
+human's work on every start. If a place mixes sculpted and generated terrain, **remove the blanket
+clear** and ship the file with the sculpted zones present and the generated area empty.
 Deprecated (do NOT use): `GetCell/SetCell/SetCells/GetWaterCell/SetWaterCell`, `AutowedgeCell(s)`,
 `ConvertToSmooth`, property `IsSmooth`, enums `WaterDirection`/`WaterForce`.
 
@@ -102,8 +140,15 @@ workspace.Terrain:WriteVoxels(Region3.new(corner, corner + Vector3.new(16,16,16)
 - **`resolution` must be 4**; `ExpandToGrid(4)` regions before read/write.
 - **Overlapping fills overwrite** (see above) — the erase-your-own-work trap.
 - **Water needs a solid basin**; carve first, fill water second.
-- **Per-op voxel cap ~4,194,304** **[approx]**; bounded by `Terrain.MaxExtents`. Chunk big jobs.
-- **`WriteVoxels` serial only.**
+- **Per-op cap = 4,194,304 voxels, and it THROWS** (documented, not approximate). A `pcall` that ignores
+  the result converts this into a silent no-op. Slab big jobs and check every result.
+- **`WriteVoxels` serial only** (`ReadVoxels` is thread-safe).
+- 🔴 **Land whose surface sits at the water level renders as thin sheets with occupancy holes.** Keep
+  every land surface at least ~8 studs clear of `WATER_Y`; never ramp gently *through* the waterline.
+- **`Terrain.MaxExtents` is not an emptiness test** — it returns a huge sentinel box when the terrain is
+  empty. Probe voxels or use `CountCells()`.
+- **Heightmap import**: 1 px = 4 studs, max 4096×4096 `.png`/`.jpg`; optional colormap maps exact RGB
+  values to materials (see the colour table in `parts/terrain`). Human/editor path.
 
 ## When to use what
 
