@@ -31,8 +31,8 @@ keyword search)**. All Defender SFX/music. See [README](README.md).
 | Name | rbxassetid (SoundId) | Project | Notes |
 |------|----------------------|---------|-------|
 | lobby_intro_music | 135826546197884 | jungle | lobby theme (music loop) |
-| morning_starts | 98066971477923 | jungle | music/stinger — plays when day starts |
-| night_starts | 99602574849976 | jungle | music/stinger — plays when night starts |
+| morning_starts | **88638394432005** | jungle | music/stinger — day starts. ⚠️ **re-uploaded 2026-08-02**; the original `98066971477923` is dead |
+| night_starts_2 | **75443344927115** | jungle | music/stinger — night starts, 11.0 s. ⚠️ **Third asset, DIFFERENT source audio** — the first two both failed moderation. See the note below |
 | battle_starts | 79506043370965 | jungle | music/stinger — combat start |
 | Jungle day ambience 1 | 116462724806689 | jungle | ambient bed — birds+insects (2D loop) |
 | Jungle day ambience 2 | 120011248667884 | jungle | ambient bed variant |
@@ -43,6 +43,21 @@ keyword search)**. All Defender SFX/music. See [README](README.md).
 | rope_creak | 99642631685891 | jungle | positional creak @ watchtowers (LobbySoundscape) |
 | timer_countdown | 116568191818931 | jungle | launch-pad countdown tick (LobbyServer, positional on pad) |
 | ui_mouse_click | 89108158102227 | jungle | UI button click (UIClick.local.luau) |
+
+> ✅ **`night_starts` took three assets to land — and the lesson is worth keeping.** The first two,
+> `99602574849976` and then `95532390211599` (a re-upload of the *same*
+> `assets/Objects/Ambient/night_starts.mp3`), both failed the same way: `GetProductInfo` succeeded — asset
+> exists, AssetTypeId 3, owned by `johnygorsky10` — but `Sound.IsLoaded` stayed **false** and the runtime
+> said *"Asset is not approved for the requester"*.
+>
+> **Diagnosis:** two uploads of one file failing identically, while its sibling `morning_starts`
+> re-uploaded cleanly on the first try, meant the problem was **the audio itself** (Roblox's
+> copyright/content check), not the pipeline, the account, or per-experience permissions. So the fix was
+> *different source audio*, not a third upload of the same mp3 — `night_starts_2` `75443344927115` loads
+> fine, 11.0 s.
+>
+> **Rule of thumb:** if an upload won't play, check whether a SIBLING upload from the same session works.
+> If it does, stop re-uploading and change the file. Resolved: `roblox.jungle.game/todo/0044`.
 
 ### Lobby SFX batch 2 — uploaded 2026-07-20 22:40 (Job #064). Source files: `assets/Objects/Ambient/Sound_wave_2/*.mp3`
 
@@ -81,6 +96,39 @@ the wreck, so it moves and falls off with distance.
 | metal_debris | 139877854727588 | jungle | wreckage settling — **positional @ wreck**, ~1–2 s after impact |
 | ear_ringing | 134266191078049 | jungle | tinnitus as you come round — 2D one-shot, fading |
 | fire_sound | 99475771894138 | jungle | burning wreck — **positional @ wreck**, loop; full for ~45 s then fades to smoke |
+
+### GAME place — boat engine, uploaded 2026-08-02 (Job #073)
+
+The boat's **live** engine: a one-shot when someone takes the helm, then a loop whose volume and pitch
+track how hard the boat is actually working. Both **positional on the boat's `Motor` part** (welded at the
+stern) so the engine is heard from the right place and falls off with distance for the rest of the crew.
+
+| Name | rbxassetid (SoundId) | Project | Role |
+|------|----------------------|---------|------|
+| boat_engine_starts | 105048345579705 | jungle | engine turning over — one-shot when a player sits in `DriverSeat` |
+| speed_boat_loop | 74719520771875 | jungle | engine loop — volume + `PlaybackSpeed` driven per-frame by throttle and real hull speed |
+| boat_hit | 131954812341128 | jungle | our boat takes damage — one-shot @ `Hull`, volume scaled by the size of the bite |
+
+### GAME place — weapons, uploaded 2026-08-02
+
+| Name | rbxassetid (SoundId) | Project | Role |
+|------|----------------------|---------|------|
+| gun_shot | 138178318678571 | jungle | weapon fire — <span style="color:#f0a020">**uploaded + owned, NOT wired, deliberately**</span> |
+
+> **`gun_shot` is recorded here only.** The user's call while Job #073 was open: *"Do not add sound yet,
+> because this will be seperate task, just list it in file."* It belongs with the weapon/turret work
+> (`sync/ServerScriptService/Combat/GunServer.server.luau` + `WeaponServer`), not with the ambient job
+> that happened to be running when it was uploaded.
+
+> Wired by `sync/StarterPlayer/StarterPlayerScripts/Boat/BoatEngineSound.local.luau` — **client-side on
+> purpose.** The volume/pitch change every frame, and driving that from the server would replicate a
+> property write per frame to every client for no benefit. The boat is server-owned
+> (`SetNetworkOwner(nil)`), so `AssemblyLinearVelocity` and `seat.Throttle` already replicate; each client
+> reads those and drives its own local Sound.
+
+> **Superseded local files:** `assets/Objects/Boat/Sounds/` still holds un-uploaded `boat_engine*.mp3`
+> candidates. These two uploads are what the game uses; the rest of that folder is still unwired
+> (`boat_on_fire`, `boat_destroyed`, `metal_hit_1_sec`).
 
 > **Why a new fire sound when `crackle-campfire` exists:** the campfire loop (`113774133604878`, wired in
 > the lobby) is a small domestic fire and reads far too thin for a burning aircraft. It is still useful
