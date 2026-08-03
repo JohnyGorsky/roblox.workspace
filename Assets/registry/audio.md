@@ -137,3 +137,37 @@ stern) so the engine is heard from the right place and falls off with distance f
 >
 > **Not sourced (optional, low priority):** a distant plane pass to foreshadow the aircraft before it
 > clears the ridge.
+
+---
+
+### In-run HUD cues — **Job #075 (2026-08-02), game place**
+
+**Reused, not re-sourced.** Three of these are filed above under `defender`. They are generic SFX with
+nothing Defender-specific in them, and reuse-before-re-source is this registry's stated purpose — so the
+Jungle HUD points `Theme.sound` straight at the existing ids rather than uploading duplicates.
+⚠️ *Pending the user's OK; swap for Jungle-specific uploads if they'd rather.*
+
+| Theme key | Registry asset | rbxassetid | Originally | Now also used by |
+|---|---|---|---|---|
+| `pickup` | `item_drop` | 125050168809089 | defender | jungle — loot picked up |
+| `hurt` | `player_attacked` | 117259006391295 | defender | jungle — player takes damage |
+| `runWin` | `level_completed` | 138409734628557 | defender | jungle — run won (results panel) |
+| `zoneEnter` | `battle_starts` | 79506043370965 | jungle | zone-crossing banner |
+| `dayBreak` | `morning_starts` | 88638394432005 | jungle | DAWN banner |
+| `nightFall` | `night_starts_2` | 75443344927115 | jungle | NIGHTFALL banner |
+
+**⏳ NOT YET SOURCED — 5 placeholders.** Declared in `Theme.sound` with an EMPTY id, listed in
+`Theme.soundPending`, and already wired at every call site. `UISound` skips an empty id silently (an
+*unknown* key still warns), so each one starts working the moment its id is pasted in. Sourcing brief +
+search terms: `roblox.jungle.game/ASSETS.md` §5.3.
+
+| Theme key | Fires when | Wanted |
+|---|---|---|
+| `lowFuel` | fuel crosses below 20% | ~0.5 s single soft beep, not a loop |
+| `lowHull` | hull below 30%; boat attacked while you're ashore | ~1 s metallic groan |
+| `downed` | you go down | ~1 s low thud + breath |
+| `revived` | you get back up | ~1 s rising swell |
+| `runLost` | crew wiped | ~2 s somber descending sting |
+
+> **Remember to update BOTH copies of `Theme.luau`** when an id lands — `sync/ReplicatedStorage/UI/` and
+> `lobby/sync/ReplicatedStorage/UI/` are byte-identical by contract.

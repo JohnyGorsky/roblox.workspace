@@ -106,3 +106,45 @@ at; the Hub ids stay above because they're what the store listings themselves di
 
 > Superseded pass-icon uploads (10:13 PM batch, replaced by the 10:15 PM ones): `119971224828477`,
 > `77302146173024` — do not use.
+
+---
+
+### In-run HUD icon set — **⏳ PENDING, Job #075 (2026-08-02), game place**
+
+The game place's HUD was rebuilt on the design system in Job #075. The **"Lobby UI icon set" above
+already covers most of it** — all five role glyphs (`ship-wheel` / `machine-gun` / `fuel-station` /
+`tools` / `first-aid-kit`), plus coin, shield, box, check, close, trophy, motorboat, shop, roblox. The
+16 below are what has **no honest substitute**.
+
+**⚠️ Source from the SAME Flaticon author as the Lobby UI icon set** (ASSETS.md §1.9: *"one pack, one
+author — mixed packs are the #1 way an icon set looks amateur"*). Full-colour flat, matching that set.
+
+**Nothing is broken while these are missing.** Each key exists in `Theme.icon` with an empty id and is
+listed in `Theme.iconPending`; `Components.iconId` substitutes the fallback below, so the HUD renders at
+the right size and reads correctly in a screenshot. `Theme.reportPendingIcons()` prints the outstanding
+list on every Studio start.
+
+| # | Icon wanted | Theme key | Placeholder | Used by | Priority |
+|---|---|---|---|---|---|
+| 1 | Scrap / salvage pile | `salvage` | `crate` | Salvage currency chip | required |
+| 2 | Metal plate / girder | `metal` | `tools` | cargo chip | required |
+| 3 | Ammo box / bullets | `ammoBox` | `gun` | cargo chip, dock shop, gunner readout | required |
+| 4 | Heart | `heart` | `medkit` | player health bar | required |
+| 5 | Machete / sword | `machete` | `tools` | hotbar slot (Sword) | required |
+| 6 | Pistol | `pistol` | `gun` | hotbar slot, dock shop | required |
+| 7 | Bandage | `bandage` | `medkit` | bandage chip, dock shop | required |
+| 8 | Checkered / finish flag | `flag` | `bounty` | END marker on the river bar | required |
+| 9 | Warning triangle | `warning` | `bounty` | boat-under-attack strip | required |
+| 10 | Sun | `sun` | `star` | DAWN banner | required |
+| 11 | Moon | `moon` | `star` | NIGHTFALL banner | required |
+| 12 | Skull | `skull` | `crew` | downed overlay, spectate tag, crew-lost result | required |
+| 13 | Shotgun | `shotgun` | `gun` | hotbar slot, dock shop | optional |
+| 14 | Rope / knot | `rope` | `tools` | untie / cast-off button | optional |
+| 15 | Map pin | `pin` | `fuel` | dock pin on the river bar, zone banner | optional |
+| 16 | Clipboard | `clipboard` | `check` | objectives tray header | optional |
+
+**To land one:** paste the `rbxassetid://` into `Theme.icon`, then delete that key's row from BOTH
+`Theme.iconPending` and `Theme.iconFallback` — and copy `Theme.luau` to the other tree, since
+`sync/ReplicatedStorage/UI/` and `lobby/sync/ReplicatedStorage/UI/` are byte-identical by contract.
+
+**Needs no asset:** the steer/throttle glyphs `◀ ▶ ▲ ▼` render in Builder Sans.
