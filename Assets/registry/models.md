@@ -67,3 +67,38 @@ depend on the Store listing. **Script-scanned = 0 scripts** (foliage must have n
 > ZeroNeon `100428860346013` — `LightConfig`+2), `Lush Ivy Vine` (Bella `95095149446517` — PoseTexture/
 > TextureConfiguration ×2), `Wall Vine` (`71567087607171` — LightConfig trio). `Mountain rocks`
 > (`84900070002980`) degenerate bounds. Do not reuse.
+
+---
+
+### Jungle river-village huts — **Job #077, sourced 2026-08-05**
+
+Creator Store, **all four from one author** (`Houseplant_Leaf`) so the set reads as one style — the
+ASSETS.md §1.9 "one pack, one author" rule applied to props. Filipino *Bahay Kubo* stilt houses: a hut
+raised on posts is what a river-village trading post actually looks like.
+
+**Licence:** free, public. Description says *"Credits would be highly appreciated"* — attribution, not a
+requirement. Add to the game's credits when there is one.
+
+| Name | rbxassetid | Instances | Size (studs) | Notes |
+|---|---|---|---|---|
+| `BahayKubo1` | 6808910590 | 22 (16 part + 6 mesh) | 20×16×27 | |
+| `BahayKubo2` | 6811407916 | 18 (10 part + 8 mesh) | 25×16×22 | |
+| `BahayKubo5` | 10019841237 | 13 (9 part + 2 mesh + 2 union) | 30×22×34 | **best value** — largest footprint for fewest instances |
+| `BahayKubo7` | 10031256291 | 95 (89 part + 4 mesh + 2 union) | 40×26×50 | ⚠️ heaviest by far; use once per village, not per camp |
+
+**Localized** to `ServerStorage.AssetLibrary.Structures` in the GAME place.
+
+#### SECURITY scan — passed, with a note worth keeping
+
+`insert_asset` reported **`sandboxed: true` for #5 and #7** ("set Sandboxed property to true on all
+scripts"), which reads like a script warning. A full descendant scan found **zero `LuaSourceContainer`,
+zero RemoteEvent/RemoteFunction/BindableEvent, zero Tool, zero ClickDetector** in all four. So the flag
+did not correspond to anything executable that survived insertion. **The lesson: the flag is not the scan.
+Scan anyway** — and note that #1/#2 came back `sandboxed: false` while #5/#7 did not, so the flag does vary.
+
+Cleanup applied on insert:
+- **1 stray publisher `Camera` deleted from each** — Studio junk, not content.
+- **`CollisionFidelity` → `PreciseConvexDecomposition`** on 15 instances across #1, #2 and #5. They shipped
+  as `Default`, which on a house raised on stilts seals the underside — you could not walk beneath the
+  floor, which is the entire reason the building is on stilts. (#7 already shipped Precise.)
+- Everything forced `Anchored = true`.

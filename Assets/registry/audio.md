@@ -155,6 +155,7 @@ Jungle HUD points `Theme.sound` straight at the existing ids rather than uploadi
 | `zoneEnter` | `battle_starts` | 79506043370965 | jungle | zone-crossing banner |
 | `dayBreak` | `morning_starts` | 88638394432005 | jungle | DAWN banner |
 | `nightFall` | `night_starts_2` | 75443344927115 | jungle | NIGHTFALL banner |
+| `emptyClick` | **`empty_gun`** | **75733077651437** | **jungle** | dry trigger click — turret + handheld, no ammo |
 
 **⏳ NOT YET SOURCED — 5 placeholders.** Declared in `Theme.sound` with an EMPTY id, listed in
 `Theme.soundPending`, and already wired at every call site. `UISound` skips an empty id silently (an
@@ -171,3 +172,12 @@ search terms: `roblox.jungle.game/ASSETS.md` §5.3.
 
 > **Remember to update BOTH copies of `Theme.luau`** when an id lands — `sync/ReplicatedStorage/UI/` and
 > `lobby/sync/ReplicatedStorage/UI/` are byte-identical by contract.
+
+> **`empty_gun` `75733077651437` — uploaded 2026-08-05, VERIFIED PLAYABLE.** Not just `GetProductInfo`:
+> name match + `AssetTypeId = 3` + creator `johnygorsky10`, **and** `PreloadAsync` succeeded with
+> `IsLoaded = true` and `TimeLength = 0.392 s`. That last part is the check that matters — per the
+> `night_starts` note above, an asset can pass `GetProductInfo` three times over and still refuse to load.
+>
+> Wired to `Theme.sound.emptyClick`, volume 0.45, with a 0.3 s per-cue debounce override in `UISound`
+> (the global default is 0.06 s, which would let a 0.39 s sound stack on itself when a player mashes the
+> trigger). Consumed by `GunClient` (mounted turret) and `WeaponClient` (handheld).
