@@ -109,6 +109,14 @@ stern) so the engine is heard from the right place and falls off with distance f
 | speed_boat_loop | 74719520771875 | jungle | engine loop — volume + `PlaybackSpeed` driven per-frame by throttle and real hull speed |
 | boat_hit | 131954812341128 | jungle | our boat takes damage — one-shot @ `Hull`, volume scaled by the size of the bite |
 | croc_idle (aligator_hissing) | 137066735880685 | jungle | enemy SFX — Crocodile lurking hiss, positional @ Body, fires every 10–22 s while NOT chasing (Job #078) |
+| gun_reload | 134765294816468 | jungle | uploaded 2026-08-16 — NOT yet wired |
+| gun_empty_clip | 135106168511714 | jungle | uploaded 2026-08-16 — alternate for `empty_gun`, not wired |
+| boat_destroyed | 89814954215320 | jungle | uploaded 2026-08-16 — NOT yet wired |
+| boat_on_fire | 85716055048481 | jungle | uploaded 2026-08-16 — NOT yet wired |
+| boat_engine_starts | 105048345579705 | jungle | uploaded — check against the wired engine loop before adding |
+| speed_boat_loop | 74719520771875 | jungle | uploaded — ditto |
+| boat_engine_loop_5_sek | 131217762182988 | jungle | uploaded — ditto |
+| metal_debris | 139877854727588 | jungle | uploaded — candidate for the boat metal-hit cue |
 | AxeSwing | 210946558 | jungle + defender | melee swing whoosh — reused from roblox.defender (Job #079) |
 | AxeChop | 8936215056 | jungle + defender | melee HIT, only on a landed blow — reused from roblox.defender (Job #079) |
 | Axe Equip | 2304904662 | jungle + defender | equip cue. ⚠️ authored at Volume 10.0 in Defender; Jungle wires it at 0.35 (Job #079) |
