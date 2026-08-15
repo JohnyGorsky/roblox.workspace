@@ -108,6 +108,11 @@ stern) so the engine is heard from the right place and falls off with distance f
 | boat_engine_starts | 105048345579705 | jungle | engine turning over — one-shot when a player sits in `DriverSeat` |
 | speed_boat_loop | 74719520771875 | jungle | engine loop — volume + `PlaybackSpeed` driven per-frame by throttle and real hull speed |
 | boat_hit | 131954812341128 | jungle | our boat takes damage — one-shot @ `Hull`, volume scaled by the size of the bite |
+| croc_idle (aligator_hissing) | 137066735880685 | jungle | enemy SFX — Crocodile lurking hiss, positional @ Body, fires every 10–22 s while NOT chasing (Job #078) |
+| croc_attack (monster_bite_1) | 94063943857259 | jungle | enemy SFX — Crocodile bite, positional @ Body, one-shot on each bite (Job #078). Generic monster bite, not gator-specific |
+| croc_aggro (aligator_aggro) | 108958436464973 | jungle | enemy SFX — Crocodile locks on; widest rolloff of the set so it carries over the engine (Job #078) |
+| animal-hurt | 137192983266942 | jungle | enemy SFX — generic creature hurt. SHARED by Crocodile + Panther (Job #078) |
+| animal-die | 120708334083507 | jungle | enemy SFX — generic creature death. SHARED by Crocodile + Panther (Job #078) |
 
 ### GAME place — weapons, uploaded 2026-08-02
 
