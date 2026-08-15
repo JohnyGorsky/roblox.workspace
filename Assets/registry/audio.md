@@ -109,6 +109,12 @@ stern) so the engine is heard from the right place and falls off with distance f
 | speed_boat_loop | 74719520771875 | jungle | engine loop — volume + `PlaybackSpeed` driven per-frame by throttle and real hull speed |
 | boat_hit | 131954812341128 | jungle | our boat takes damage — one-shot @ `Hull`, volume scaled by the size of the bite |
 | croc_idle (aligator_hissing) | 137066735880685 | jungle | enemy SFX — Crocodile lurking hiss, positional @ Body, fires every 10–22 s while NOT chasing (Job #078) |
+| AxeSwing | 210946558 | jungle + defender | melee swing whoosh — reused from roblox.defender (Job #079) |
+| AxeChop | 8936215056 | jungle + defender | melee HIT, only on a landed blow — reused from roblox.defender (Job #079) |
+| Axe Equip | 2304904662 | jungle + defender | equip cue. ⚠️ authored at Volume 10.0 in Defender; Jungle wires it at 0.35 (Job #079) |
+| shotgun fire high quality | 129597576449946 | jungle | Creator Store, free (Halflifeperson). Shotgun report — ⚠️ 3.21 s long against a 0.7 s fire interval, so it is RESTARTED not layered (Job #079) |
+| shotgun-pump | 113837896417526 | jungle | Creator Store, free (RabbitFan6butreal). The rack between shots, fired 0.18 s after the shot (Job #079) |
+| empty_gun | 75733077651437 | jungle | dry-fire click, already in the user's inventory — wired Job #079 |
 | croc_attack (monster_bite_1) | 94063943857259 | jungle | enemy SFX — Crocodile bite, positional @ Body, one-shot on each bite (Job #078). Generic monster bite, not gator-specific |
 | croc_aggro (aligator_aggro) | 108958436464973 | jungle | enemy SFX — Crocodile locks on; widest rolloff of the set so it carries over the engine (Job #078) |
 | animal-hurt | 137192983266942 | jungle | enemy SFX — generic creature hurt. SHARED by Crocodile + Panther (Job #078) |
@@ -118,7 +124,7 @@ stern) so the engine is heard from the right place and falls off with distance f
 
 | Name | rbxassetid (SoundId) | Project | Role |
 |------|----------------------|---------|------|
-| gun_shot | 138178318678571 | jungle | weapon fire — <span style="color:#f0a020">**uploaded + owned, NOT wired, deliberately**</span> |
+| gun_shot | 138178318678571 | jungle | ✅ WIRED Job #079 (was uploaded 2026-08-02 and unwired) — weapon fire — <span style="color:#f0a020">**uploaded + owned, NOT wired, deliberately**</span> |
 
 > **`gun_shot` is recorded here only.** The user's call while Job #073 was open: *"Do not add sound yet,
 > because this will be seperate task, just list it in file."* It belongs with the weapon/turret work
