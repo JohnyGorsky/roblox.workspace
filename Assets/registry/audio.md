@@ -111,8 +111,16 @@ stern) so the engine is heard from the right place and falls off with distance f
 | croc_idle (aligator_hissing) | 137066735880685 | jungle | enemy SFX — Crocodile lurking hiss, positional @ Body, fires every 10–22 s while NOT chasing (Job #078) |
 | gun_reload | 134765294816468 | jungle | uploaded 2026-08-16 — NOT yet wired |
 | gun_empty_clip | 135106168511714 | jungle | uploaded 2026-08-16 — alternate for `empty_gun`, not wired |
-| boat_destroyed | 89814954215320 | jungle | uploaded 2026-08-16 — NOT yet wired |
-| boat_on_fire | 85716055048481 | jungle | uploaded 2026-08-16 — NOT yet wired |
+| boat_destroyed | 102492807352506 | jungle | ✅ wired (#081) — hull reaches 0 |
+| boat_on_fire | 76815433524413 | jungle | ✅ wired (#081) — loops under 30% hull; 17.2 s clip |
+| metal_hit_1_sec | 108683025674193 | jungle | ✅ wired (#081) — layered on a hit >=18% MaxHP |
+| low_fuel_warning | 76291949644634 | jungle | ✅ wired (#081) — `Theme.sound.lowFuel` |
+| low_hull_warning | 77018431817918 | jungle | ✅ wired (#081) — `Theme.sound.lowHull` |
+| palyer_dawned | 139285102940691 | jungle | ✅ wired (#081) — `Theme.sound.downed` (upload's spelling) |
+| palyer_revived | 74705196258655 | jungle | ✅ wired (#081) — `Theme.sound.revived` |
+| run_lost_sound | 94363214324807 | jungle | ✅ wired (#081) — `Theme.sound.runLost` |
+| ~~boat_destroyed~~ | ~~89814954215320~~ | jungle | ⚠️ DEAD DUPLICATE — superseded, safe to delete |
+| ~~boat_on_fire~~ | ~~85716055048481~~ | jungle | ⚠️ DEAD DUPLICATE — superseded, safe to delete |
 | boat_engine_starts | 105048345579705 | jungle | uploaded — check against the wired engine loop before adding |
 | speed_boat_loop | 74719520771875 | jungle | uploaded — ditto |
 | boat_engine_loop_5_sek | 131217762182988 | jungle | uploaded — ditto |
