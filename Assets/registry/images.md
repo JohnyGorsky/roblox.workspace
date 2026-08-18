@@ -6,6 +6,7 @@ PBR texture maps (`Material_*`, NormalMaps) + a few named. Likely Defender. See 
 
 | Name | rbxassetid | Project | Notes |
 |------|------------|---------|-------|
+| **BoatInfo** | **113207367236651** | **jungle** | "HOW TO USE THE BOAT" infographic — deposit in the centre area, fuel station, repair station. Uploaded by the user 2026-08-18 for Job #098's landing-zone sign. Wide ~16:9. |
 | iron_armor_transparent_v3 | 139087440968888 | defender | armor UI/texture |
 | knight_pants | 137273386338288 | defender | clothing texture |
 | Developer Product Image Asset | 137143700075888 | defender | dev product icon |
