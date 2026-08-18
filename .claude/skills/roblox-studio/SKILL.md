@@ -1,6 +1,6 @@
 ---
 name: roblox-studio
-description: Roblox Studio features + the built-in Studio MCP for any game in this workspace — the MCP tool set & our verify/playtest discipline, the Assistant/agentic tools, editors (terrain, UI styling, material generator, animation), scripting (new Luau type solver, native codegen), testing (Device Emulator for mobile, Team Test), and recent 2025-2026 features worth using (texture streaming, occlusion culling, custom matchmaking, 120-stud lights). Use when driving Studio via MCP, choosing a Studio tool/feature, or setting up testing.
+description: Roblox Studio features + the built-in Studio MCP for any game in this workspace — the MCP tool set & our verify/playtest discipline, the Assistant/agentic tools, editors (terrain, UI styling, material generator, animation), scripting (new Luau type solver, native codegen), testing (the DEVICE EMULATOR — which gives real TouchEnabled, real ViewportSize and Roblox's own TouchGui rects, and answers almost every mobile question without a phone — plus Team Test), and recent 2025-2026 features worth using (texture streaming, occlusion culling, custom matchmaking, 120-stud lights). Use when driving Studio via MCP, choosing a Studio tool/feature, or setting up testing.
 ---
 
 # Roblox Studio & the Studio MCP
@@ -54,9 +54,58 @@ build (`multi_edit`/`insert_asset`/`generate_mesh|material`), and **playtest** (
 ## Testing (mobile-first)
 
 - Test modes: **Play** / **Play Here** / **Run** (server, no char) / **Team Test** (multiplayer, one at a time).
-- **Device Emulator** (Test menu) — emulate phones/tablets, resolutions, touch controls. **Use it to verify
-  every HUD/menu on mobile.** Full multitouch may still need a real device.
 - Raise **Editor Quality Level** to preview real lighting/water in edit view; MicroProfiler for frame timing.
+
+### ⚠️ THE DEVICE EMULATOR IS THE MOBILE ANSWER — USE IT BEFORE SAYING "NEEDS A REAL DEVICE"
+
+**Test → Device.** This section is emphatic because Jobs #094–#099 burned four jobs' worth of effort
+deferring mobile questions to "a real phone" while the emulator sat one click away and could have
+answered nearly all of them immediately.
+
+**What a desktop Play session tells you about mobile: nothing.** It reports
+`UserInputService.TouchEnabled = false`, so every touch-gated branch never runs — the touch controls are
+never even built. Measuring the "mobile HUD" there measures something that does not exist.
+
+**What the emulator gives you, all of it real and measurable via `execute_luau`:**
+
+| | |
+|---|---|
+| `UserInputService.TouchEnabled` | **true** — touch-only UI actually builds |
+| `Camera.ViewportSize` | the device's REAL GUI coordinate space |
+| `GuiService:GetGuiInset()` | the true top-bar inset |
+| A `ScreenGui`'s `AbsoluteSize` | the real usable canvas per `ScreenInsets` mode |
+| `PlayerGui.TouchGui` | Roblox's OWN controls, with real rects: `ThumbstickStart`, `ThumbstickEnd`, `JumpButton` |
+
+**⚠️ `ViewportSize` is NOT the screenshot's pixel size.** On a phone preset it came back **666 × 374**
+(usable **666 × 316** after insets) where the device screenshot was ~1536 × 710. **Every pixel `MinSize`
+floor is therefore ~2.3× larger relative to the canvas than a desktop test suggests** — this is what
+broke the lobby rail in #095 (a 420 px floor became ~80% of the screen). Aspect-ratio testing does not
+reveal it; only reading `ViewportSize` on a touch canvas does.
+
+**Always check our UI against `TouchGui`.** Roblox's thumbstick and jump button are real, they are
+big, and no in-house overlap harness knows they exist. Measured on a phone preset: thumbstick
+`x 29..103, y 223..297`; jump `x 571..641, y 226..296`; and `DynamicThumbstickFrame` reserves the whole
+bottom-left quadrant. **The bottom-left belongs to movement — do not put UI there.**
+
+**The one thing it genuinely cannot do:** multi-touch. It is single-pointer, so "two thumbs at once"
+still needs hardware. That is the *only* claim worth deferring to a real device.
+
+### Measuring UI: what lies to you
+
+Verified failures from #095/#097/#099 — all produced confident, wrong numbers:
+
+1. **Cloning a GUI to measure it does not run its runtime code.** Anything sized imperatively by a
+   script (a `resize()` on `AbsoluteSize`, a `layoutCluster()`) keeps whatever pixel value the live
+   session had, and reports the same number at every simulated viewport.
+2. **Forcing hidden children `Visible = true` changes `UIListLayout` flow.** Hotbar slots read 57×57
+   that way and are really 76×76.
+3. **`TextLabel.TextFits` is not reliable on an off-screen clone.** Text that measured "fits" was
+   plainly clipped on the device. `applyText`'s `TextScaled` has a **12 px `MinTextSize` floor**, so
+   text cannot shrink out of a too-small box — it wraps, and the overflow is simply cut.
+
+**So:** a harness is trustworthy for *static rectangle collisions*. For text fit, script-sized elements
+and anything involving CoreGui, measure **live in the emulator**, and re-measure a surprising number a
+second way before acting on it.
 
 ## Scripting notes
 
