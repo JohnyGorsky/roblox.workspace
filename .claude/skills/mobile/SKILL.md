@@ -18,6 +18,10 @@ of *measuring* one. The emulator was available the whole time.
 
 Do this **before** designing, and before saying anything needs a real device.
 
+> **Ask the human before flipping `Test → Device`** — it takes over their Studio session (GROUND-RULES §2).
+> The gate is on the switch, not on the measurement: still ask for the emulator rather than
+> guessing at a layout or deferring the question to "a real device".
+
 **Test → Device** in Studio, pick a phone preset, Play, then run the probe in
 [reference/probe.luau](reference/probe.luau) via `execute_luau` (datamodel: **Client**).
 

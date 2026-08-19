@@ -58,6 +58,10 @@ build (`multi_edit`/`insert_asset`/`generate_mesh|material`), and **playtest** (
 
 ### ⚠️ THE DEVICE EMULATOR IS THE MOBILE ANSWER — USE IT BEFORE SAYING "NEEDS A REAL DEVICE"
 
+> **Ask the human before flipping `Test → Device`** — it takes over their Studio session (GROUND-RULES §2).
+> The gate is on the switch, not on the measurement: still ask for the emulator rather than
+> guessing at a layout or deferring the question to "a real device".
+
 **Test → Device.** This section is emphatic because Jobs #094–#099 burned four jobs' worth of effort
 deferring mobile questions to "a real phone" while the emulator sat one click away and could have
 answered nearly all of them immediately.
