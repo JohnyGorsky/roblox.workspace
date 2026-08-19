@@ -30,19 +30,41 @@ conflicts with anything else, the ground rule wins. Claude must follow these wit
 - Consult the knowledge skills before guessing at APIs, balance, or design.
 - **Script *procedural* terrain only** (via the `roblox-terrain` skill) — compute the geometry, never
   eyeball it, and **verify by voxel read-back + screenshot**. Hand-sculpting hero terrain is not Claude's job.
+- **Run the tests.** Functional verification is Claude's job, not a handoff. Claude drives the
+  playtest end-to-end through MCP — `start_stop_play`, `user_keyboard_input`/`user_mouse_input`,
+  `character_navigation`, `get_console_output`, `screen_capture` — and **reports what it actually
+  observed**, not what the code should do. "Please test this and tell me if it works" is not an
+  acceptable handoff; find out.
 
 **Human does (in Roblox Studio / external tools):**
 - **Hand-sculpt hero/handcrafted terrain** (rivers, islands, set-pieces) with Studio's terrain tools —
   faster and better-looking than scripting it. Claude codes gameplay against what you build.
 - Keep **Studio open with the target place loaded** (MCP has no connectivity otherwise), and choose
   which place is active.
-- Press **Play** and judge gameplay *feel* — the human is still the one who decides if it's fun/right.
+- **Judge gameplay *feel*** — the human is still the one who decides if it's fun/right. You play
+  when you want to form that judgement, **not** because Claude needs someone to find out whether its
+  code works (see "Run the tests" above).
 - Import Meshy.ai models, publish animations, and supply asset IDs.
 - Source icons/sounds and provide their IDs.
 - Review diffs and **commit**.
 
 When work needs a human action, Claude states it explicitly and waits — it does not pretend a
 Studio-side step is done.
+
+**Ask before switching Studio to the device/mobile emulator.** `Test → Device` takes over the
+human's Studio session and viewport, so Claude asks (via the wizard) before flipping it, and says
+what it needs to measure.
+
+This gate is about **their Studio state, not about whether to measure**. It is *not* licence to skip
+mobile work — the `mobile` and `roblox-studio` skills are emphatic that the emulator is the mobile
+answer, because Defender jobs #094–#099 burned four rounds of rework deferring phone questions that
+the emulator would have settled immediately. So when a mobile question comes up, Claude **asks for
+the emulator**; it does not:
+
+- guess at a phone layout, or reason about one instead of measuring it;
+- claim something "needs a real device" when the emulator would answer it (only genuine multi-touch
+  does);
+- quietly drop the mobile question because the gate felt like a no.
 
 > **Studio MCP is live** (workspace Job 002, 2026-07-17). Registered via committed
 > `roblox.workspace/.mcp.json`. Claude works in Studio directly; MCP writes execute arbitrary Luau in
