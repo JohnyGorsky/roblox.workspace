@@ -54,8 +54,9 @@ shadow-capable `Technology`. Keep shadow-casting lights few on mobile **[unverif
 (0–24), `TimeOfDay` ("HH:MM:SS"), `GeographicLatitude`, `FogStart`/`FogEnd`/`FogColor`.
 Methods: `Get/SetMinutesAfterMidnight`, `GetSunDirection`, `GetMoonDirection`.
 **Day/night:** animate `ClockTime` (or SetMinutesAfterMidnight). Prefer **`Atmosphere`** over basic Fog.
-⚠️ **`Lighting.Technology` is deprecated as a *script-settable* property** — set the lighting technology
-in Studio's rendering settings, not at runtime.
+⚠️ **`Lighting.Technology` no longer exists on the Lighting instance** (verified 2026-08-19; reading it
+from Luau fails). Use `LightingStyle` + `PrioritizeLightingQuality` — see Shadows below. Both are
+read-only to scripts.
 
 ## Effect children of Lighting
 
@@ -72,14 +73,20 @@ in Studio's rendering settings, not at runtime.
 
 `BasePart.CastShadow` (false on clutter to save cost), `Lighting.GlobalShadows` (master toggle),
 `Lighting.ShadowSoftness` (**only with ShadowMap/Future**), per-light `Shadows`.
-**`Enum.Technology`** (set in Studio settings): `Voxel`(1, cheapest — shadows on a 4×4×4 grid, objects
-must exceed 4 studs to cast), `Compatibility`(2), `ShadowMap`(3, sharp sun shadows + ShadowSoftness),
-`Future`(4, per-pixel local lights + shadows — **heaviest, worst on mobile**). `Legacy`(0)/`Unified`(5)
-deprecated. `Lighting.PrioritizeLightingQuality` (bool) trades shadow range vs view distance under load.
+**Current properties** (verified live 2026-08-19), both **read-only to scripts** — Properties panel only,
+per place:
+- **`Lighting.LightingStyle`** — `Enum.LightingStyle`: `Realistic`(0) = high-quality path, the old
+  `Future` role, **heaviest on mobile**; `Soft`(1) = cheaper, and the default on new places.
+- **`Lighting.PrioritizeLightingQuality`** (bool) — trades shadow range vs view distance under load.
+  Consider `false` where long sightlines matter more than shadow detail (open water, distant POIs).
+
+**`Enum.Technology`** still exists — `Legacy`(0), `Voxel`(1), `Compatibility`(2), `ShadowMap`(3),
+`Future`(4), `Unified`(5) — but **no property consumes it any more**. `ShadowSoftness` used to require
+ShadowMap/Future; re-verify its behavior under `LightingStyle` before relying on it.
 
 ## Mobile/perf summary
-Particle Rate capped lower on mobile (100/s); flipbooks auto-disable on low memory; `Future` is the
-heaviest Technology; `ShadowSoftness` needs ShadowMap/Future; disable `CastShadow` on clutter; minimize
+Particle Rate capped lower on mobile (100/s); flipbooks auto-disable on low memory; `LightingStyle =
+Realistic` is the heaviest lighting path; `ShadowSoftness` needs ShadowMap/Future; disable `CastShadow` on clutter; minimize
 shadow-casting local lights and stacked post-effects.
 
 ## Sources

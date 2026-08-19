@@ -13,7 +13,10 @@ effects are GPU-heavy and our games are mobile-first.
 - **Beam has NO `Emit`/`Clear`** — only `SetTextureOffset`. **ParticleEmitter** has `Emit(count)`+`Clear()`;
   **Trail** has `Clear()`.
 - **Trail `WidthScale` is a NumberSequence** (not a number). **Atmosphere `Decay` is a Color3** (not a number).
-- **`Lighting.Technology` is set in Studio's rendering settings, not by script** (deprecated as settable).
+- **`Lighting.Technology` NO LONGER EXISTS on the Lighting instance** (verified 2026-08-19 — not even
+  readable from Luau). It is replaced by **`LightingStyle`** (`Enum.LightingStyle`: `Realistic`=0,
+  `Soft`=1) and **`PrioritizeLightingQuality`** (bool). Both are **read-only to scripts**, even under
+  plugin capability — they are Properties-panel values only.
 - Particle **`Rate` is capped 400/s desktop, 100/s mobile**; `Lifetime` max 20s; flipbooks auto-disable on low memory.
 - `LightEmission = 1` → additive blending (glow). `ZOffset` layers emitters without changing screen size.
 
@@ -32,7 +35,19 @@ effects are GPU-heavy and our games are mobile-first.
 
 ## Shadows & lighting tech
 
-`Lighting.GlobalShadows` master toggle; `BasePart.CastShadow=false` on clutter; `ShadowSoftness` needs
-**ShadowMap/Future** tech. `Voxel` = cheapest (blocky, 4-stud grid), `ShadowMap` = sharp sun shadows,
-`Future` = best but **heaviest on mobile**. Keep shadow-casting local lights few; don't stack many
-post-effects. Set the Technology to match the target device budget (in Studio settings).
+**Current model (verified against live Studio 2026-08-19).** `Lighting.Technology` is gone; the two
+properties that exist are:
+
+| Property | Values | Notes |
+|---|---|---|
+| `LightingStyle` | `Realistic` (0), `Soft` (1) | `Realistic` is the high-quality path (the old `Future` role) — **heaviest on mobile**. `Soft` is the cheaper default |
+| `PrioritizeLightingQuality` | bool | Trades shadow range against view distance under load |
+
+**Both are read-only to scripts** — set them in the Properties panel with `Lighting` selected, per place.
+A script cannot configure or repair them, so they belong on a human checklist and in a settings spec.
+
+`Lighting.GlobalShadows` (master toggle), `Lighting.ShadowSoftness` and `BasePart.CastShadow` **are**
+scriptable. Keep shadow-casting local lights few and don't stack post-effects.
+
+`Enum.Technology` still exists (`Legacy`/`Voxel`/`Compatibility`/`ShadowMap`/`Future`/`Unified`) but no
+longer maps to a property — treat any doc or answer that says "set Lighting.Technology" as out of date.

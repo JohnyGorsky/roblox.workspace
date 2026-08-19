@@ -42,6 +42,44 @@ build (`multi_edit`/`insert_asset`/`generate_mesh|material`), and **playtest** (
   instead (e.g. set `RiverEndDistance = 0`) to trip a monitor.
 - Some emoji (e.g. 🪙) render as a tofu box in Roblox `TextLabel`s — avoid them in UI text.
 
+## Where things live in the Studio UI
+
+⚠️ **Verify before you instruct.** Roblox renames and moves this UI often. Do **not** state a menu path
+from memory — check the live Studio, or ask for a screenshot. Saying "File → Game Settings" to a user
+whose Studio has no such entry wastes their time and costs trust. Everything below was verified against
+live Studio on **2026-08-19**; re-verify after a Studio update.
+
+**There is no "Game Settings" any more.** It was split:
+
+| What you want | Where it is |
+|---|---|
+| Max players — called **"Maximum Visitor Count"** | **Creator Hub** → Creations → *experience* → Places → *place* → **Access** → Basic Settings. ✅ verified 2026-08-19. `File → Experience Settings` may also work; unverified |
+| Who may join a place directly (**Direct Access Control**) | Same Access page. `Fully Open` allows deep links, game invites and insecure client teleports from *any* universe; `Secure within Universe only` restricts to secure server teleports — the right choice for a run/session place reached from a lobby |
+| **Social Slots** (friends joining your server) | Same Access page. Right for a lobby, usually wrong for a fixed-size session place |
+| Avatar type (R6/R15), scaling, animations | `File → Avatar Settings` — its own entry, *not* inside Experience Settings |
+| Place/experience configs | `File → Open Configs` |
+| **Studio's own preferences** (themes, editor, network) | `File → Studio Settings` (`Alt+S`) — a different thing entirely; don't confuse it with Experience Settings |
+| Lighting style / shadows quality | **Properties panel**, not a dialog: Explorer → select `Lighting` → `LightingStyle`, `PrioritizeLightingQuality`. Read-only to scripts, per place |
+| Playable devices | Creator Hub (create.roblox.com), on the experience's Settings page |
+
+**Menu bar:** File, Edit, View, Plugins, Test, Window, Help.
+
+**Ribbon tabs:** Home, Avatar, UI, Script, Model, Plugins (+). **There is no Test ribbon tab** — playtest
+is the ▶/⏸/⏹ transport buttons at the top-left with a mode dropdown beside them, plus the `Test` menu.
+The Home tab carries Select/Move/Scale/Rotate/Transform, snap toggles, Part/Terrain/Character/GUI/Script/
+Import, Material/Color, Group/Lock/Anchor, and the Explorer/Properties/Toolbox/Assets toggles.
+
+**Settings a script cannot touch** — these need a human click, so put them on a checklist rather than
+attempting them in code:
+
+- `Players.MaxPlayers` / `PreferredPlayers` — read-only to scripts, **including** the MCP's plugin
+  context. The assignment fails outright.
+- `Lighting.LightingStyle` / `PrioritizeLightingQuality` — same.
+- Anything on the Creator Hub (playable devices, monetization, genre, privacy).
+
+Before telling a human to click something, prefer proving what the property does over MCP first: read it,
+try assigning its own value back, and report whether it is writable. That converts a guess into a fact.
+
 ## Which Studio tool for the job
 
 - **Hand-sculpt hero terrain** → Terrain Editor (Generate/Sculpt/Sea Level). Scripted/procedural terrain →
