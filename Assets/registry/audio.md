@@ -3,8 +3,21 @@
 Our own uploads (creator `johnygorsky10`, owned). Pulled 2026-07-18 — **first 20 (more exist; expand via
 keyword search)**. All Defender SFX/music. See [README](README.md).
 
+> **The Last Tide storm bed (job 018)** — four channels, all ours, all live. Levelled off two Workspace
+> attributes rather than off each other: `Wind` drives the two wind layers, `Precipitation` drives rain, and
+> each lightning strike's own distance drives thunder. That is why **rain must not contain thunder and
+> thunder must not contain rain** — anything baked into the other clip fires at the wrong moment.
+>
+> ⚠️ **The rain clip is only 1.54 s.** A loop that short is normally the most audible thing in a mix. It is
+> usable here because rain is broadband noise, so `StormAudio` gives it **4 detuned voices at ±13%** instead
+> of the 2 at ±1.5–2% the wind layers get — detuned copies drift permanently out of phase, so the combined
+> texture never repeats. If a longer rain recording (6–15 s) ever turns up, prefer it and drop the voice
+> count back to 2; the wide detune is compensation, not a preference.
+
 | Name | rbxassetid (SoundId) | Project | Notes |
 |------|----------------------|---------|-------|
+| rain | 133061174808986 | **tide** | storm rain-on-water. **1.54 s** — short, so `StormAudio.rain` runs 4 voices at ±13% detune (see the note above). Levelled off `Precipitation`, NOT off wind, so a windless shower is possible |
+| thunder | 88316151105164 | **tide** | lightning thunder, 5.49 s. One-shot, fired `distance / 300` s after the flash; volume and `PlaybackSpeed` both scale with the strike's distance, so near strikes are brighter and far ones duller |
 | shark_attack_music | 140118514053949 | defender | music |
 | pig-attack | 139588447817895 | defender | mob SFX |
 | zombie_noticed_me | 138451405512346 | defender | mob SFX |
@@ -36,7 +49,7 @@ keyword search)**. All Defender SFX/music. See [README](README.md).
 | battle_starts | 79506043370965 | jungle | music/stinger — combat start |
 | Jungle day ambience 1 | 116462724806689 | jungle | ambient bed — birds+insects (2D loop) |
 | Jungle day ambience 2 | 120011248667884 | jungle | ambient bed variant |
-| wind-breeze | 93331028777865 | jungle | ambient — light wind layer |
+| wind-breeze | 93331028777865 | jungle, **tide** | ambient — light wind layer. Tide: `StormAudio.windLow`, the low end of the wind range |
 | water-splashes | 115704936377395 | jungle | positional SFX — dock/shore |
 | crackle-campfire | 113774133604878 | jungle | positional SFX — campfire |
 | cicadas | 128204240690640 | jungle | ambient one-shots — wildlife calls |
@@ -91,7 +104,7 @@ the wreck, so it moves and falls off with distance.
 | plane_flying | 131906456545456 | jungle | prop-engine drone — **2D loop**, the bed under the whole cruise |
 | engine_fail | 109868059978369 | jungle | engine sputter/stall — 2D one-shot, cues the descent |
 | stall_alarm | 112730854260419 | jungle | cockpit warning — 2D short loop, stall → impact (keep low under the engine) |
-| wind_rush | 96421007219531 | jungle | dive rush — 2D loop, **fade IN across the 9 s descent**, don't play flat |
+| wind_rush | 96421007219531 | jungle, **tide** | dive rush — 2D loop, **fade IN**, don't play flat. Tide: `StormAudio.windHigh`, silent below wind 0.35 so it always fades in |
 | crash_sound | 107234930559671 | jungle | 🔴 the impact — 2D one-shot; the cut to black lands on this |
 | metal_debris | 139877854727588 | jungle | wreckage settling — **positional @ wreck**, ~1–2 s after impact |
 | ear_ringing | 134266191078049 | jungle | tinnitus as you come round — 2D one-shot, fading |

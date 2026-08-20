@@ -111,3 +111,33 @@ Cleanup applied on insert:
   as `Default`, which on a house raised on stilts seals the underside — you could not walk beneath the
   floor, which is the entire reason the building is on stilts. (#7 already shipped Precise.)
 - Everything forced `Anchored = true`.
+
+## The Last Tide — skyboxes (THIRD-PARTY, Creator Store, free)
+
+Added 2026-08-20, tide Job #015. **Not ours** — free Creator Store assets are licensed for use *inside
+Roblox only*; we do not own them and must not reuse them outside Roblox.
+
+**All seven scanned: 0 LuaSourceContainers.** Inserted into an isolated `ServerStorage.SkyQuarantine`
+before anything ran, scanned, then reduced to data. Precedent for why: a `Low Poly Nature Pack` was
+rejected earlier in this registry for shipping a script called `CoreSkyboxSystem`, so skybox-adjacent
+Models demonstrably do carry code.
+
+Stored as **data, not instances**: `studio_game/ReplicatedStorage/SkyLibrary.luau` holds the six face ids
+per sky, so the set is version-controlled and diffable rather than hidden inside the `.rbxl`.
+
+Why they exist at all: job 007 proved neither Fog nor Atmosphere can make Roblox's clear-day sky overcast
+(Atmosphere Density 0.98 / Haze 4.5 left it bright blue), and the sky dominates how the sea reads — so the
+cold-ocean art direction was unreachable without real sky art.
+
+| Name | Model assetid | Creator | Project | Scanned? | Used for | Notes |
+|------|---------------|---------|---------|----------|----------|-------|
+| Fog on the water Skybox | 15876671760 | Plasmaking0531 | tide | ✅ 0 scripts | `FogOnWater` → Choppy | Most on-brief find: fog sitting on water. Faces 15876592775/595486/597103/638420/639348/640231 |
+| Angry Heavens Sky (HD) | 2670935816 | alexutzu2001 | tide | ✅ 0 scripts | `AngryHeavens` → Storm | Dark storm cloud. 2019-era asset, plain description — predates the keyword-farm era |
+| Black Skybox | 582303304 | LuckyTux | tide | ✅ 0 scripts | `BlackVoid` → The Wall | **One image (156311666) on all six faces.** A void, not scenery — nothing behind The Wall's 330-stud fog |
+| Night Fog Skybox | 1864839162 | empIoyer | tide | ✅ 0 scripts | `NightFog` → night cycle (group 07) | ⚠️ Creator name uses capital `I` where an `l` belongs — a common impersonation pattern. Scanned clean regardless |
+| Sunless Blue Sky Skybox | 591067775 | Yourius | tide | ✅ 0 scripts | `SunlessBlue` → Dead Calm | "Sunless" = no sun disc. Original had `CelestialBodiesShown = true`; **we force it false** |
+| Snow Skybox | 4604073339 | DovysCleveri | tide | ✅ 0 scripts | `SnowGrey` → Light Swell | Flattest free grey. **Also shipped Bloom + Blur + ColorCorrection, discarded** — they would have trampled the sea states' lighting |
+| Classic Roblox Sky | 339406852 | Vallorum | tide | ✅ 0 scripts | `ClassicRoblox` → fallback | Uses `rbxasset://` engine-built-in files, so it needs no asset id and cannot be moderated away |
+
+**Still missing:** a true flat-grey overcast. Nothing free in the store is it; `SnowGrey` is the nearest
+borrow. If the calm states still read wrong, the answer is to commission six faces to the palette.
