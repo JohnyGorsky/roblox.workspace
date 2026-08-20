@@ -3,20 +3,39 @@
 Our own uploads (creator `johnygorsky10`, owned). Pulled 2026-07-18 — **first 20 (more exist; expand via
 keyword search)**. All Defender SFX/music. See [README](README.md).
 
-> **The Last Tide storm bed (job 018)** — four channels, all ours, all live. Levelled off two Workspace
-> attributes rather than off each other: `Wind` drives the two wind layers, `Precipitation` drives rain, and
-> each lightning strike's own distance drives thunder. That is why **rain must not contain thunder and
-> thunder must not contain rain** — anything baked into the other clip fires at the wrong moment.
+> **The Last Tide audio bed (jobs 018–019)** — direction set by
+> [decision 0021](../../../roblox.tide/docs/decisions/0021-audio-direction.md): **no music in the POC**, and
+> **Pro Sound Effects** (Creator Store, free, verified) as the primary source. Chosen for LENGTH — 28–110 s
+> where most Roblox audio is 2–5 — because length is what defeats audible looping.
 >
-> ⚠️ **The rain clip is only 1.54 s.** A loop that short is normally the most audible thing in a mix. It is
-> usable here because rain is broadband noise, so `StormAudio` gives it **4 detuned voices at ±13%** instead
-> of the 2 at ±1.5–2% the wind layers get — detuned copies drift permanently out of phase, so the combined
-> texture never repeats. If a longer rain recording (6–15 s) ever turns up, prefer it and drop the voice
-> count back to 2; the wide detune is compensation, not a preference.
+> Every looping bed runs through `AudioBed`: several voices, equal-power crossfade, random re-seek while
+> silent, per-voice detune. Levels come from the same `SeaState`/blend/`StormIntensity` attributes the
+> lighting composer reads, so sound and look cannot disagree about the weather.
+>
+> ⚠️ **Search this library by its own category vocabulary** (`Thunder`, `Water - Surf`, `Water - Turbulent`,
+> `Birds - Water`, `Ambience - Nautical`, `Boats - Bow Wash`). Plain-language searches miss badly — *"wind
+> gust howling loop"* returned subway trains and sci-fi whooshes.
+>
+> ⚠️ **READ THE DESCRIPTION, NOT JUST THE CATEGORY.** Two otherwise-perfect candidates were rejected because
+> a vehicle is baked into them, and on a loop that recurs forever:
+> `9117143192` Ocean Surf 1 — *"…Roar of White Noise, **Prop Plane Fly By**"*;
+> `9112870008` San Pedro Harbor 2 — *"…Seagulls, **Heavy Helicopter Fly By**"*.
+>
+> ⚠️ **Rain must not contain thunder and thunder must not contain rain.** They are levelled independently —
+> rain off `Precipitation`, thunder off each strike's own distance — so anything baked in fires at the wrong
+> moment. The `Thunder Distant Rumble` clips DO have light rain in them, which is why they are the continuous
+> **storm bed** and not the per-strike one-shot.
+>
+> Licence for everything from Pro Sound Effects: **use within Roblox only.** Not ours, not reusable outside.
 
 | Name | rbxassetid (SoundId) | Project | Notes |
 |------|----------------------|---------|-------|
-| rain | 133061174808986 | **tide** | storm rain-on-water. **1.54 s** — short, so `StormAudio.rain` runs 4 voices at ±13% detune (see the note above). Levelled off `Precipitation`, NOT off wind, so a windless shower is possible |
+| Waves Rolling 2 (PSE) | 9120621776 | **tide** | ocean bed, calm/swell. **33.13 s**. "Waves, Distant Ocean, Rolling, Coast, Seaside". Also serves `deadCalm` at `PlaybackSpeed` 0.35 — the sea slowed until it stops sounding like water | Creator Store, Roblox-only |
+| Water Wake Constant 2 (PSE) | 9120610116 | **tide** | ocean bed, heavy. **28.77 s**. "Water - Turbulent, Airy Rushing, Hissing Roar". Crossfades against the calm bed rather than stacking on it | Creator Store, Roblox-only |
+| Thunder Distant Rumble 1 (PSE) | 9120018692 | **tide** | **continuous storm bed**, 109.74 s. Has light rain baked in — fine for ambience, disqualifying for a one-shot | Creator Store, Roblox-only |
+| Seagulls And Crows 1 (PSE) | 9112870863 | **tide** | day birds, **70.37 s**, marked Loop by its author. Gated on daylight AND calm AND no storm, so their absence means something | Creator Store, Roblox-only |
+| Rain On Water 1 (PSE) | 9112855484 | **tide** | rain, **36.01 s**, "Constant, Distant, Muffled, Washing Over, Airy, Soft, Loop". **Replaced our 1.54 s clip in job 019**: long enough for 2 voices at ±2% instead of 4 at ±13%, which removed a workaround rather than tuning it | Creator Store, Roblox-only |
+| rain | 133061174808986 | tide *(superseded)* | our own upload, 1.54 s. **Retired in job 019** in favour of `9112855484` — not wrong, just short: at 1.5 s there is nowhere to re-seek within, so it needed 4 voices at ±13% detune to hide the loop. Kept here because it is ours and may suit a shorter positional effect later |
 | thunder | 88316151105164 | **tide** | lightning thunder, 5.49 s. One-shot, fired `distance / 300` s after the flash; volume and `PlaybackSpeed` both scale with the strike's distance, so near strikes are brighter and far ones duller |
 | shark_attack_music | 140118514053949 | defender | music |
 | pig-attack | 139588447817895 | defender | mob SFX |
