@@ -103,6 +103,33 @@ before using them:**
   for design/art, **Meshy.ai** for custom 3D. Claude proposes → **human approves** → Claude integrates.
   Respect each source's license/attribution; Roblox moderates uploaded images/audio.
 
+**🔴 STANDING RULE — who does what when an asset is needed (set 2026-08-20, applies to every project):**
+
+When Claude concludes an asset is needed — a sound, a texture, a model, an icon — the sequence is fixed:
+
+1. **Claude searches the asset market FIRST.** Our own registry and inventory, then the Creator Store via
+   `search_asset`. Do not ask the human to go looking for something we may already own or that is one search
+   away. "Try the market first" is not a suggestion; it is the first step.
+2. **Claude plans the asset**, i.e. writes down *what is needed and why*: the slot it fills, how it will be
+   driven at runtime, its length/loop/format requirements, and — critically — **what it must NOT contain**
+   (e.g. rain must not have thunder baked in, because the two are levelled independently and anything baked
+   in fires at the wrong moment).
+3. **Claude suggests how to search for it** — the exact search terms, the source to try, and the acceptance
+   criteria the human should judge a candidate against.
+4. **The human finds and provides it.** They will supply ids.
+5. **Claude wires it in, scans it, and logs it** in the shared registry.
+
+The plan in step 2–3 is the deliverable, and it must be specific enough to search with. A request like
+"we need a rain sound" is not usable; "a seamless 6–15 s rain-on-water loop, no thunder, no music, judged
+under the live wind bed via the panel's audition tool" is.
+
+**Leave the slot EMPTY rather than filling it with a placeholder.** A wrong sound or a stand-in texture is
+much harder to notice than a missing one, and placeholders are how the wrong asset ends up shipping. Empty
+slots must announce themselves (see `StormAudio.missing()`), and where possible be **auditionable at
+runtime** so a candidate is judged in context rather than alone on a store page.
+
+**Any question about an asset goes through the AskUserQuestion wizard, never prose.** See §1.
+
 **Asset policy (mandatory — full workflow in the `roblox-assets` skill):**
 - **Our assets first.** Search our own inventory + the game's **asset registry** before any public search.
 - **Present before use.** Claude shows candidate assets (name/id/type/source/license) and **only uses one
