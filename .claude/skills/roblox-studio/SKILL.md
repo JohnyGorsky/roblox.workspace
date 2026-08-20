@@ -15,6 +15,11 @@ build (`multi_edit`/`insert_asset`/`generate_mesh|material`), and **playtest** (
 `get_console_output`, `screen_capture`, `user_*_input`, `character_navigation`).
 
 **Discipline (non-negotiable):**
+- **`screen_capture` with a camera position leaves the camera `Scriptable`, which locks the user's
+  viewport.** Always hand it back afterwards: `workspace.CurrentCamera.CameraType = Enum.CameraType.Fixed`
+  — **`Fixed`, not `Custom`**. `Custom` is the runtime default, does not hold in Edit mode, and silently
+  reverts to `Scriptable` (verified 2026-08-19). Read it back in a separate call; a successful write is
+  not proof it held.
 - **Verify every scene/terrain edit** — read it back (`inspect_instance`/`ReadVoxels`) **and**
   `screen_capture` — before reporting done. (This rule was learned the hard way; see `roblox-terrain`.)
 - Greybox live: `execute_luau` → `screen_capture` → iterate.
