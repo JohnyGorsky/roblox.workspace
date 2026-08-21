@@ -240,3 +240,62 @@ search terms: `roblox.jungle.game/ASSETS.md` §5.3.
 > Wired to `Theme.sound.emptyClick`, volume 0.45, with a 0.3 s per-cue debounce override in `UISound`
 > (the global default is 0.06 s, which would let a 0.39 s sound stack on itself when a player mashes the
 > trigger). Consumed by `GunClient` (mounted turret) and `WeaponClient` (handheld).
+
+### The Last Tide — radar, approved 2026-08-21 (job 026, `GAME-0002`)
+
+Approved by the user after auditioning through the panel's `Audio → Audition a sound id` on the `thunder`
+slot (the only one-shot slot; the other three are looping beds and a 0.6 s ping in a loop tells you nothing).
+
+| Name | rbxassetid | Length | Source | Role |
+|---|---|---|---|---|
+| ~~`radar_sweep_1`~~ | ~~9126138070~~ | 0.6 s | Pro Sound Effects | 🔴 **REJECTED in play** — see below |
+| ~~`radar_sweep_2`~~ | ~~9126138068~~ | 0.5 s | Pro Sound Effects | 🔴 **REJECTED in play** — see below |
+| `radar_contact` | 75886285262316 | — | NyannyCat2 | a contact lighting up |
+
+**Three clips approved, two slots — and the third is the point, not a spare.** The sweep fires every few
+seconds for a fifty-minute run, which is the worst case for audible repetition: no rhythm or melody for the
+ear to hold onto, so the only structure it can latch onto is the clip itself. Two variants alternating is the
+cheap fix, and it is the same reasoning behind every bed in this file. Both sweep clips are the same Pro
+Sound Effects "Transmission Breakup — Sonar Or Tracker Tones" family, so they sit together without sounding
+like two different instruments.
+
+The contact ping is deliberately a **different** clip, so a new return is audibly distinct from the routine
+tick. If they were the same sound the operator would have to watch to notice a contact — which defeats the
+point of having audio at all.
+
+⚠️ **Mounted positionally at the radar station**, not played 2D. Decision: the radar is a place on the boat
+you stand at, so its sound has to come from there — audible at the console, not across the whole deck. That
+is also why a clip with baked reverb was rejected during the search: it fights the 3D placement.
+
+**Rejected during this search, with reasons worth keeping:**
+
+| Asset | Why not |
+|---|---|
+| `6011559008` "Sonar ping" | 🔴 Its own description: *"Taken from 'Echoes' by Pink Floyd."* A copyrighted music sample — moderation risk, and not ours to use |
+| `9125981410`, `9125981390` "Spaceship Sonar … Tonal Throbs" | 2.3–2.4 s synth throbs. Sci-fi where the brief is mechanical, and far too long for a per-sweep tick |
+| `9119433138` "Spaceship Sonar Asynchronous Transmissions" | 2.1 s, synth whoosh and hiss — same problem |
+| First search pass (`radar ping sonar`) | Returned SCP ambient loops and notification pops. The plain-language search missed badly, exactly as this file's own warning predicts — `sonar` alone found everything |
+
+### 🔴 The two sweep clips were rejected once heard at the console (2026-08-22)
+
+`9126138070` and `9126138068` are *"Transmission Breakup, Sonar or Tracker Tones, **Stutter, Pause**, Normal
+Communication, **Interference**"*. They are comms interference, not pings, and read as random noise on the
+instrument. They were chosen by reading "Sonar or Tracker Tones" and stopping — exactly the failure **this
+file's own standing warning** describes above: *READ THE DESCRIPTION, NOT JUST THE CATEGORY.* Second data
+point for that rule, and it has now cost two jobs.
+
+The audition METHOD was the other half of the mistake. They were judged through the storm's `thunder` slot,
+which plays a candidate at the volume of thunder 600 studs away — far too quiet and distant to tell a ping
+from a texture. **A candidate must be auditioned in the slot it will occupy.** Job 026 therefore added
+`Radar → Try a sound id`, which swaps an id into the radar's own positional emitter at the console.
+
+`radar_contact` (`75886285262316`) survives — it is an actual ping. The sweep slots are **awaiting a
+replacement**; shortlisted from a plain `radar` search: `94964245942654` "Radar Beep", `100022561841543`
+"Radar Sweeping Buzz", `134488958673979` "Radar".
+
+⚠️ **Avoid game rips.** `94284490018715` "radar ping war thunder", `140258751125933` "radar_lock Warthunder"
+and `124769355492204` "Minesweeper Plus Radar Use" are lifted from commercial products — the same category of
+problem as `6011559008`, which admits in its own description to being a Pink Floyd sample.
+
+Licence: Pro Sound Effects is **use within Roblox only**. `75886285262316`'s creator states free use on the
+Roblox platform, use elsewhere prohibited.

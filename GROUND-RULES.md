@@ -107,6 +107,10 @@ before using them:**
 
 When Claude concludes an asset is needed — a sound, a texture, a model, an icon — the sequence is fixed:
 
+0. **Claude presents every asset request as a TABLE** (set 2026-08-21) — one asset per row, columns
+   **Type** (sound/image/model/icon) · **Name** (the slot it fills) · **How to search** (exact terms and
+   which source). Never prose per asset. Include candidate asset IDs in the table when the search already
+   found some.
 1. **Claude searches the asset market FIRST.** Our own registry and inventory, then the Creator Store via
    `search_asset`. Do not ask the human to go looking for something we may already own or that is one search
    away. "Try the market first" is not a suggestion; it is the first step.
