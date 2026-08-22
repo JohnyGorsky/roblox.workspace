@@ -81,6 +81,8 @@ Terrain:WorldToCell(pos) / CellCenterToWorld(x,y,z) / CellCornerToWorld(x,y,z)
 
 - `CopyRegion` takes a **`Region3int16`**, `PasteRegion` a **`Vector3int16`** corner — both in **CELL**
   units (1 cell = 4 studs). Passing a `Region3` fails with *"Unable to cast Region3 to Region3int16"*.
+- 🔴 **`Region3int16`'s max corner is INCLUSIVE**, measured: min `(-653,-15,1097)` to max `(-547,5,1203)`
+  gives `SizeInCells` **107, 21, 107** = `max - min + 1`. A half-width of 53 cells captures 107 cells.
 - ⚠️ **Translation is therefore quantised to 4 studs.** An 18-stud shift cannot be expressed; 16 or 20
   only. Derive offsets **surface-to-surface**, not centre-to-level.
 - `pasteEmptyCells = true` → exact paste (empty cells clear existing terrain). `false` → overlay solids.

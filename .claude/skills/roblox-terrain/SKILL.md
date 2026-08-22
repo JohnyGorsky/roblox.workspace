@@ -14,8 +14,9 @@ discipline, the failure catalogue, and the recipes.
 ## 0. The five facts behind most terrain bugs
 
 1. **Voxels are 4×4×4 studs; `resolution` must be exactly `4`.** Every write is quantised to that grid.
-   **A voxel's world Y is its CENTRE** — a voxel reported at `y = 18` occupies **16…20**, so its
-   surface is at **20**. Off-by-2 here is the most common analysis error (§3).
+   **A voxel's world Y is its CENTRE** — a voxel reported at `y = 18` occupies **16…20**. But its
+   *top face* and **the surface you can stand on are not the same height** — see §3, which was measured
+   and is not what this skill said before. Off-by-2 here is the most common analysis error.
 2. **`ReadVoxels` / `WriteVoxels` / `ReadVoxelChannels` THROW above 4,194,304 voxels.** Wrapped in a
    `pcall` whose result you ignore, that becomes a **silent no-op**: the script reports success and
    does nothing. Slab your regions and **always check the pcall result**.
@@ -127,9 +128,38 @@ local wy = base.Y + (yi - 0.5) * RES
 local wz = base.Z + (zi - 0.5) * RES
 ```
 
-- **surface height = topmost solid voxel centre + RES/2** (i.e. `+2`).
-- Comparing a *centre* to a *target surface* is an off-by-2 bug: a bank built to surface `20` reports a
-  top voxel centre of `18` — correct, not a violation. Write the test to match.
+### 🔴 The surface you can STAND ON is `centre + occupancy × RES`, not `centre + RES/2`
+
+This skill previously said *"surface height = topmost solid voxel centre + RES/2"*. **Measured against 73
+columns of a real sculpt (Tide job 027), that rule is wrong by up to a full `RES/2`:**
+
+| Candidate rule | Mean abs. error | Worst |
+|---|---|---|
+`centre + RES/2` — what this skill used to say | **1.657 studs** | 2.000 |
+**`centre + occupancy × RES`** | **0.087 studs** | 0.973 |
+
+Two details, both load-bearing:
+
+- take the topmost **NON-EMPTY** voxel, not the topmost one over 0.5 — the partial cell is what shapes the
+  surface;
+- multiply occupancy by the **full** `RES`, not half of it.
+
+**The useful corollary:** substitute the voxel arithmetic and it collapses to
+
+```
+collision surface  =  sculpt target height + RES/2      -- i.e. +2 studs
+```
+
+So terrain **stands 2 studs higher than the height you asked for**. A plateau sculpted at 16 is walked on at
+18. Verified both ways: a column targeted at 9.98 measured 11.982.
+
+⚠️ **Anything comparing a raycast against a designed height must add `RES/2` first.** Tide job 027 saw this
+as *"worst error 2.0 studs"* against a tolerance of exactly 2 — a passing check that a 1.9 tolerance would
+have failed, which is a test agreeing with a bug rather than testing anything. Once converted, the same
+check reported **0.0** and the tolerance could go to 0.6.
+
+- A voxel's *top face* is still `centre + RES/2`. That is a different quantity from its surface, and
+  conflating the two is the off-by-2.
 - `Region3:ExpandToGrid(4)` before every read/write. Cell coords = studs ÷ 4.
 
 ---
@@ -171,6 +201,35 @@ artifact along its entire length.
 local BANK_MIN = WATER_Y + 8      -- hard floor for land beside water
 h = BANK_MIN + smoothstep(u) * (hRef - BANK_MIN)
 ```
+
+#### 🔴 A gentle shore cannot avoid it AT ALL. Only a discontinuity can.
+
+The rule above works for a bank that never crosses the waterline. When land *has* to meet water — an island,
+a beach — no continuous profile can comply: **to get from `+10` to `−4` continuously you must pass through
+the band, and whatever column lands in there is a sheet.** Steepening the ramp only reduces the count.
+
+Measured on Tide's first island: a 60° face still produced **335 offending columns**, plainly visible as flat
+sheets lying on the sea. Job 024's earlier "240 of a 400-column shoreline" was read as a floor to live with;
+it is actually a floor for the *wrong shape*.
+
+**The fix is to generate nothing in the band at all** — jump straight from the last dry height to the first
+wet one:
+
+```lua
+if r <= rb then
+    return beachTop                     -- lowest DRY land, e.g. +8  (surface +10)
+elseif r <= ro then
+    return faceBottom + ...             -- highest WET land, e.g. -6 (surface -4)
+end                                     -- nothing is ever generated between them
+```
+
+That took the same island to **exactly 0** offending columns, because no column's surface can land in a band
+no column targets. The renderer bridges the two adjacent columns with a **~72° face**, which a Humanoid still
+walks up (`MaxSlopeAngle` defaults to 89).
+
+⚠️ The cost is that the coastline becomes a low bluff rather than a beach. If you need somewhere walkable,
+give **one arc** a gentle run and accept the artifact only there — small, and exactly where jetty or dock art
+will cover it.
 
 ### 🔴 Never write "remove land that is low AND surrounded by water"
 
@@ -221,8 +280,15 @@ across places is impossible (the array is far too large to pass through a tool c
 2. **Human** copies that `TerrainRegion` in Explorer and pastes it into the target place.
 3. **Target place:** `Terrain:PasteRegion(tr, cornerCell, true)`, then delete the helper.
 
+- 🔴 **`Region3int16`'s max corner is INCLUSIVE.** Measured: `CopyRegion` over min `(-653,-15,1097)` to max
+  `(-547,5,1203)` returns `SizeInCells` **107, 21, 107** — that is `max - min + 1`, not `max - min`. So a
+  half-width of 53 cells captures 107 cells, and the paste corner is `destinationCentreCell - halfCells`.
 - `pasteEmptyCells = true` makes the paste **exact** (empty cells clear existing terrain); `false`
   overlays solid cells only.
+- **To UNDO a sculpt, paste a clean patch over it** rather than computing what the surroundings should look
+  like: copy an equal-sized region of untouched terrain from far enough away that the boxes cannot overlap,
+  verify it really is clean, then paste it with `pasteEmptyCells = true`. The result then matches its
+  surroundings by construction instead of by your arithmetic about seabed depth and water occupancy.
 - **`TerrainRegion` does not replicate between server and client.**
 - ⚠️ Offsets are cells → **multiples of 4 studs only**, and must be derived **surface-to-surface**.
   Worked example: source top water voxel spans −8…−4 (centre −6), target water level 12 → the offset is
