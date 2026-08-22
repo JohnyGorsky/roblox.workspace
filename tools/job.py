@@ -122,8 +122,11 @@ def cmd_new(args):
 ## Checklist
 
 - [ ] Requirements reviewed (this intake)
+- [ ] **Independent reviewer agent run** - given the symptom/requirement, NOT my theory (GROUND-RULES 8)
+- [ ] **Symptom reproduced in PLAY**, at the player's camera, before any fix (GROUND-RULES 7)
 - [ ] Implementation plan created & agreed
 - [ ] Implementation completed
+- [ ] **Proof it works better** captured - before/after from the same camera, in Play
 - [ ] Final summary + changelog written
 """,
         encoding="utf-8",
@@ -153,13 +156,35 @@ def cmd_plan(args):
 ## Implementation steps
 
 {steps}
+## Independent review (GROUND-RULES 8)
+
+Every job gets at least one agent, handed the symptom and the repo but NOT my hypothesis - the whole value
+is that it is not anchored to my theory. A second agent is mandatory after one failed fix.
+
+- [ ] Agent run, without being told my theory
+- **What it said to check first**: _TODO_
+- **What came of it**: _TODO_
+
 ## What I need from you
 
 - [ ] _TODO: Studio actions, asset IDs, decisions, go-ahead_
 
-## Verification
+## Verification - MANDATORY GATES (GROUND-RULES 7)
 
-- [ ] _TODO: how we confirm it works_
+None of these may be ticked from an Edit session. Edit does not run LocalScripts and has nothing created at
+runtime, so it cannot show a whole class of bug.
+
+- [ ] **Reproduced in PLAY**, at the player's camera angle, BEFORE attempting a fix
+- [ ] If this was "works in X, broken in Y": environments diffed FIRST - client scripts and their VFX,
+      runtime-created instances, tick-driven systems, place settings
+- [ ] Every check below says what a FAILURE would have looked like
+- [ ] Before/after from the SAME camera, and the "before" is kept
+- [ ] No world fact asserted from a constant - measured instead
+- [ ] The fix accounts for the REPORTED symptom, not just for real bugs found on the way
+
+### Checks
+
+- [ ] _TODO: what is checked, and what failure would look like_
 """,
         encoding="utf-8",
     )
@@ -209,9 +234,25 @@ def cmd_summary(args):
 
 {args.notes or "_TODO: describe what was built._"}
 {body}
+## Proof it works better - MANDATORY (GROUND-RULES 7)
+
+Evidence, not assertion. A claim here without data behind it means the job is not done.
+
+| | |
+|---|---|
+**Before** | _screenshot / measurement / log_ |
+**After** | _same camera, same state_ |
+**What failure would have looked like** | _TODO_ |
+
+- [ ] Captured in **PLAY**, not the editor
+- [ ] Same camera and same game state in both
+- [ ] Numbers where numbers are possible, not only screenshots
+
 ## Verification
 
-- [ ] _TODO: confirmed working_
+- [ ] All mandatory gates in the implementation plan are ticked
+- [ ] Independent reviewer agent run, and its finding recorded
+- [ ] _TODO: anything else confirmed working_
 """,
         encoding="utf-8",
     )

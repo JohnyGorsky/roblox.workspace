@@ -13,6 +13,10 @@ conflicts with anything else, the ground rule wins. Claude must follow these wit
 - **Job-first, always.** Every change starts as an explicit job — even small ones. No ad-hoc
   changes. Describe the work, I open the job (`intake`), and we proceed through the lifecycle. See §5.
 - **Every job declares its project** (`workspace` / `defender` / `jungle`) and touches only that one.
+- 🔴 **Verify in GAMEPLAY, never in the editor.** Nothing a player sees may be signed off from an Edit
+  session. Reproduce the symptom in Play, at the player's camera, before forming a hypothesis. See §7.
+- 🔴 **Every job uses at least one agent.** An independent reviewer that is *not* told Claude's theory.
+  After one failed fix, a fresh-eyes agent is mandatory before a second attempt. See §8.
 - **Never edit a script outside the system/place you were asked to work on — confirm first.** A game
   can have multiple Rojo places (e.g. Jungle: GAME `/sync/` vs LOBBY `/lobby/sync/`). Identify which
   place/system owns a file before editing it; editing across that boundary needs explicit permission.
@@ -174,3 +178,96 @@ Before doing the matching work, Claude **must** consult the relevant skill rathe
 - Setting or checking stats → that game's balance skill.
 - Inspecting/fixing the live Studio session → **`studio-diagnostics`** skill.
 - Meshy.ai model work → **`roblox-chars`** agent.
+
+## 7. Verification discipline
+
+Written after the Tide sea failure (jobs 028/029). Six rounds of "it's fixed now" were reported to the
+user from screenshots that **could not have shown the bug**. Each rule below names the mistake it exists
+to prevent, because a rule without its incident gets rationalised away.
+
+### 🔴 Verify in gameplay, never in the editor
+
+**The editor is for authoring. It is never evidence.** Edit does not run `LocalScript`s, so no client VFX
+exists there, and anything created at runtime — VFX folders, terrain pasted from a `TerrainRegion`, spawned
+props — is simply absent.
+
+> **The incident.** A cloud-bank VFX drew ~129 sprites 340 studs from the camera, permanently, because its
+> presence had a hardcoded floor and was never gated on the storm's distance. On the horizon they read as
+> rectangular blocks. It is a **client** effect, so every Edit screenshot showed a clean sea. The user said
+> "editor is fine, in game it sucks" — that sentence was the entire diagnosis, and it took far too long to
+> act on it.
+
+- Reproduce the symptom **in Play, at the reporter's camera angle**, before forming any hypothesis.
+- ⚠️ **If Edit is the more convenient place to measure, treat that as a reason to distrust the result**, not
+  a reason to use it. Convenience of measurement never outranks fidelity to the symptom.
+- A level camera hides artefacts that a looking-down gameplay camera exposes. Match the real camera.
+
+### 🔴 For any "works in X, broken in Y", diff the environments FIRST
+
+Before any other investigation, enumerate what differs. "It looks fine in the editor" **is** this kind of
+report. The checklist is cheap:
+
+- client `LocalScript`s and the VFX they build
+- instances created at runtime rather than saved in the place
+- server-only systems, and anything driven by a tick
+- `StreamingEnabled` and other place settings that only apply in-game
+
+### 🔴 A verification must be able to fail
+
+State what a failure would have looked like. If you cannot, the check is decoration.
+
+> **The incident.** `tools/luau-analyze.sh` does `cd "$(dirname "$0")/.."`. A baseline built by writing
+> `git show HEAD:<file>` into a temp directory and passing a *relative* path therefore analysed the repo's
+> own working copy — the file was compared **against itself**, and "no new diagnostics" was reported twice
+> from a check that was structurally incapable of failing. Pass absolute paths.
+
+### Every visual change gets a before/after from the same camera
+
+Keep the "before". Regressions in look are invisible without it.
+
+> **The incident.** Water was brightened from 3.2% to 8.5% luminance to make a "sunny day". That collapsed
+> the sea/sky value contrast, and value contrast is what the eye reads as texture and distance — so the sea
+> appeared to stop a few hundred studs out. **The user found it, not Claude**, because Claude never compared
+> against the pre-change state.
+
+### Never assert a world fact from a constant — measure it
+
+> **The incident.** `OCEAN_EXTENT_Z.min` said `-1000`; the water was actually filled to `-3070`. A visible
+> world edge was reported to the user that does not exist. The `roblox-terrain` skill already said to measure
+> rather than assume, and it was violated anyway.
+
+### Two failed fixes for the same symptom → stop and re-open the diagnosis from zero
+
+Including the question *"am I even in the right subsystem?"* Do not refine a theory that has already failed
+twice; six consecutive rounds were spent inside a wrong frame (water colour, atmosphere, fog, streaming, a
+mesh ocean) while the cause was a client script nobody had looked at.
+
+### The user's words are the specification
+
+A complaint repeated **unchanged** means Claude's model is wrong — not that the user missed the fix. When
+someone says "the problem is the sea horizon" three times, stop substituting your own framing for theirs.
+
+### Finding real bugs is not the same as finding the reported bug
+
+> **The incident.** The investigation turned up genuinely dead levers — no sun disc in any sea state,
+> `SunRaysEffect` enabled at intensity 0, a bloom threshold above anything on screen, no
+> `ColorCorrectionEffect` at all. All real, all worth fixing, **and none of them was what the user reported.**
+> Always ask explicitly: *does fixing this account for the symptom I was given?*
+
+## 8. Agents on every job
+
+**Every job uses at least one agent.** Not optional, not only when stuck.
+
+- **Minimum:** one independent reviewer, given only the *symptom or requirement* and the repo — never
+  Claude's hypothesis. Ask it what it would check first, and take the answer seriously when it disagrees.
+- **Mandatory trigger:** after **one** failed fix, spawn a fresh-eyes agent **before** attempting a second.
+- **Complex or stuck work:** several agents with deliberately different lenses (reproduce it / read the
+  subsystem / attack the assumption).
+- 🔴 **Do not tell the agent your theory.** The entire value is that it is not anchored to it. A reviewer
+  handed the conclusion just confirms it.
+
+**Why this is a standing rule.** The Tide sea failure was not a knowledge gap — the engine facts were all
+measured correctly. It was a *structural* blind spot: verifying in the one environment where the bug could
+not appear. Structural blind spots are invisible from the inside, which is precisely what a second pair of
+eyes is for. A reviewer given only "the sea looks wrong in game, fine in editor" would very likely have
+asked "why are you testing in Edit?" on the first pass.
