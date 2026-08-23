@@ -2,7 +2,8 @@
 """
 Shared, game-agnostic job scaffolder for the Roblox multi-game workspace.
 
-Every job belongs to exactly one project (workspace | defender | jungle | tide) and lives in that
+Every job belongs to exactly one project (workspace | defender | jungle | tide | 13floors) and lives
+in that
 project's `Jobs/NNN/` folder. A job progresses through fixed files:
 
     intake.md  ->  implementation-plan.md  ->  final-summary.md + changelog.md
@@ -14,6 +15,7 @@ Usage:
     python tools/job.py summary --project defender 7 file1.luau file2.luau --notes "..."
     python tools/job.py release --project defender 7
     python tools/job.py new     --project tide "Title" "Requirements text"
+    python tools/job.py new     --project 13floors "Title" "Requirements text"
 
 Design notes:
 - Project -> Jobs folder is resolved from this script's location (workspace/tools/job.py):
@@ -21,6 +23,7 @@ Design notes:
   defender   -> <workspace>/../roblox.defender/Jobs
   jungle     -> <workspace>/../roblox.jungle.game/Jobs
   tide       -> <workspace>/../roblox.tide/Jobs
+  13floors   -> <workspace>/../roblox.13floors/Jobs
 - The auto-sync vs manual-copy table is game-specific. If a project has a `.jobconfig.json` at its
   root with {"synced_paths": [...], "non_synced_paths": [...]}, `summary` uses it to categorize files.
   Projects without one (e.g. workspace) simply skip the sync table.
@@ -44,6 +47,7 @@ PROJECTS = {
     "defender": "../roblox.defender",
     "jungle": "../roblox.jungle.game",
     "tide": "../roblox.tide",
+    "13floors": "../roblox.13floors",
 }
 
 WORKSPACE_ROOT = Path(__file__).resolve().parent.parent
