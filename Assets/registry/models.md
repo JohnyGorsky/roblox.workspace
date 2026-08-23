@@ -90,10 +90,19 @@ requirement. Add to the game's credits when there is one.
 
 | Name | rbxassetid | Instances | Size (studs) | Notes |
 |---|---|---|---|---|
-| `BahayKubo1` | 6808910590 | 22 (16 part + 6 mesh) | 20×16×27 | |
-| `BahayKubo2` | 6811407916 | 18 (10 part + 8 mesh) | 25×16×22 | |
-| `BahayKubo5` | 10019841237 | 13 (9 part + 2 mesh + 2 union) | 30×22×34 | **best value** — largest footprint for fewest instances |
-| `BahayKubo7` | 10031256291 | 95 (89 part + 4 mesh + 2 union) | 40×26×50 | ⚠️ heaviest by far; use once per village, not per camp |
+| `BahayKubo1` | 6808910590 | 22 (16 part + 6 mesh) | 19.8×16.2×27.0 | one doorway at 223°; floor 3.5 up |
+| `BahayKubo2` | 6811407916 | 18 (10 part + 8 mesh) | 24.7×16.1×21.8 | one doorway at 213°; floor 3.5 up |
+| `BahayKubo5` | 10019841237 | 13 (9 part + 2 mesh + 2 union) | 29.6×22.4×34.0 | **best value** — largest footprint for fewest instances; open-sided, floor 4.6 up |
+| `BahayKubo7` | 10031256291 | 95 (89 part + 4 mesh + 2 union) | 40.2×25.8×50.2 | ⚠️ heaviest by far; use once per village, not per camp |
+
+⚠️ **Sizes above were CORRECTED in Jungle Job #108** against `Model:GetBoundingBox()` on the live library
+copies — `BahayKubo1` had been recorded as 20×16×27 and `BahayKubo7` as 40×26×50, and Jungle's placement
+code had inherited a 30×34 footprint for `BahayKubo1`, i.e. ~5 studs of phantom clearance per hut.
+
+⚠️ **These are STILT houses.** The interior floor is 3.5–4.6 studs above the model base — above the
+~2-stud ledge a Humanoid climbs for free — and #1/#2 have exactly ONE walk-through doorway (bearings
+above are in the model's own pivot frame, 0° = +X). Any game placing these for players to ENTER must
+build a step at the door and control the yaw, or the house is decoration.
 
 **Localized** to `ServerStorage.AssetLibrary.Structures` in the GAME place.
 
