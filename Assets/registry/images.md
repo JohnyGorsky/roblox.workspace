@@ -66,6 +66,22 @@ Flaticon set for the lobby GUI (ASSETS.md §1.9). All 23 verified in Studio 2026
 | winner_trophy | 72442029972402 | weekly-objective score reward |
 | roblox | 100088930369566 | R$ price rows |
 
+### Trading-post ammo icons (jungle) — uploaded 2026-08-23 (Job #104), game place
+
+Source PNGs: `roblox.jungle.game/assets/Images/`. **Verified in Studio 2026-08-23** —
+`MarketplaceService:GetProductInfo(id, Enum.InfoType.Asset)` returned a name match and AssetTypeId **1**
+(Image) for both, creator `johnygorsky10`. Full-colour flat, matching the sets above (no `ImageColor3`).
+
+| Name | rbxassetid | Theme key | Role in the GUI |
+|------|------------|-----------|-----------------|
+| clip | 98656594796808 | `pistolAmmo` | "Pistol Ammo" row, dock/village trading post |
+| bullets | 107222226747372 | `shotgunAmmo` | "Shotgun Ammo" row, dock/village trading post |
+
+⚠️ Deliberately **not** the existing `ammoBox` crate glyph: that one is the BOAT TURRET's ammo (cargo
+chip, gunner readout, and the row now named "Turret Ammo"). Handheld ammo and turret ammo are separate
+pools, and one shared icon across three rows is what made the turret row read as "the ammo" in the first
+place — the confusion Job #104 was raised to fix.
+
 ### Monetization icons (jungle) — uploaded via Creator Hub product/pass thumbnails, 2026-07-20
 
 Uploading a product/pass thumbnail also mints a normal owned image asset, so these **are** usable in-game
