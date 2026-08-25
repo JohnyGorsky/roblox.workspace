@@ -178,6 +178,17 @@ looped/one-shot split below depends on them. Wired in `sync/ServerScriptService/
 | eletricity_going *(sic — upload's spelling)* | 90617779140381 | 3.94 s | jungle | Generator idle: looped, positional, volume 0.32, 90-stud tail. **Also the hit reaction** — a second Sound with the same id, restarted at volume 0.9 and stopped after 0.5 s, because the whole 3.94 s clip would overlap itself six times over a 10-swing kill |
 | generator_dead | 119782619832290 | 1.10 s | jungle | Generator destroyed: one-shot at the prop, volume 0.95. The idle loop is stopped in the same frame |
 
+### GAME place — bunker door alarm, uploaded 2026-08-25 (jungle Job #116)
+
+User upload. Length MEASURED in Studio, and the measurement decided the design: at **8.05 s** against a
+**10 s** door slide it is a ONE-SHOT, fired the instant the doors start down. Looping it would restart the
+klaxon two seconds before the doors land, which reads as a bug rather than an alarm. Wired in
+`sync/ServerScriptService/World/Bunkers.luau`'s own `SFX` table (the `GameSoundscape` convention).
+
+| Name | rbxassetid (SoundId) | Length | Project | Role |
+|------|----------------------|--------|---------|------|
+| alarm | 103190295733089 | 8.05 s | jungle | Bunker doors unlocking: one-shot, positional on the doors, volume 0.85, `InverseTapered` with a **300-stud** tail. The tail is sized off the world, not taste — the furthest generator is 155 studs from the doors, and whoever lands the killing blow has to hear the thing they just opened |
+
 ### GAME place — weapons, uploaded 2026-08-02
 
 | Name | rbxassetid (SoundId) | Project | Role |
