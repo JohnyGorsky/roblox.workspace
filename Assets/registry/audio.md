@@ -168,6 +168,16 @@ stern) so the engine is heard from the right place and falls off with distance f
 | animal-hurt | 137192983266942 | jungle | enemy SFX — generic creature hurt. SHARED by Crocodile + Panther (Job #078) |
 | animal-die | 120708334083507 | jungle | enemy SFX — generic creature death. SHARED by Crocodile + Panther (Job #078) |
 
+### GAME place — end-zone generators, uploaded 2026-08-25 (jungle Job #115)
+
+User uploads. Lengths MEASURED in Studio (`Sound.TimeLength` after `IsLoaded`), not assumed — the
+looped/one-shot split below depends on them. Wired in `sync/ServerScriptService/World/Generators.luau`.
+
+| Name | rbxassetid (SoundId) | Length | Project | Role |
+|------|----------------------|--------|---------|------|
+| eletricity_going *(sic — upload's spelling)* | 90617779140381 | 3.94 s | jungle | Generator idle: looped, positional, volume 0.32, 90-stud tail. **Also the hit reaction** — a second Sound with the same id, restarted at volume 0.9 and stopped after 0.5 s, because the whole 3.94 s clip would overlap itself six times over a 10-swing kill |
+| generator_dead | 119782619832290 | 1.10 s | jungle | Generator destroyed: one-shot at the prop, volume 0.95. The idle loop is stopped in the same frame |
+
 ### GAME place — weapons, uploaded 2026-08-02
 
 | Name | rbxassetid (SoundId) | Project | Role |
