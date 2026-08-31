@@ -113,3 +113,43 @@ import — those map ids are not listed individually; re-importing the mesh brin
 >
 > Full context — every id the lobby uses, and what transfers to the GAME place:
 > `roblox.jungle.game/LOBBY-ASSET-INVENTORY.md`.
+
+## MAGNET SWEEP — the player's hero magnet (job 016, 2026-08-31)
+
+The magnet the player carries. Generated with Meshy **from the game's own key art**, not from a
+prompt: `assets/concept_art/Logo2.png` → crop → `image_to_image` (isolate on plain grey) →
+`image_to_3d` (meshy-7, PBR, 2K, triangle, remesh to 8k).
+
+| Asset | Id |
+|---|---|
+| Mesh | `117205352084553` |
+| ColorMap | `86179837697259` |
+| NormalMap | `137866197232825` |
+| MetalnessMap | `80189603883950` |
+| RoughnessMap | `132128183093036` |
+
+**8,021 triangles · 1.9031 × 1.7924 × 0.5396 studs · `AlphaMode = Overlay`.**
+Local **+X is the open end** (the chrome pole faces); local **+Y is the RED arm**, −Y the **CYAN**
+arm. Verified by photographing the imported mesh at identity rotation beside a marker cube, not by
+trusting the exporter.
+
+🔴 **Why this table matters.** `SurfaceAppearance` maps **cannot be written by a script** — the write
+fails with *"lacking capability Plugin"* in a real `LocalScript`, even though it succeeds from the
+command bar (`roblox.magnet-sweep/docs/PITFALLS.md` #63). So the textured `MeshPart` is authored in
+the editor and lives in `ReplicatedStorage.MagnetMesh` inside the `.rbxl`. **This table is the only
+record of those ids outside the place file** — exactly as for the `MaterialVariant` maps above.
+`Config.Magnet.MESH` carries them too, for rebuilding.
+
+Source files: `roblox.magnet-sweep/assets/generated/magnet-v2/` (GLB) and `magnet-ref-v2.png` (the
+image the mesh was built from).
+
+### Superseded: v1, the crane-mounted magnet
+
+| Mesh | ColorMap | NormalMap | MetalnessMap | RoughnessMap |
+|---|---|---|---|---|
+| `86157306292256` | `109787130538997` | `138863826664865` | `81566437829958` | `113031954681661` |
+
+Built from `Robot.png`, where the magnet hangs off a robot arm — so its pole faces are **capped by a
+crane mount** and it is all-red rather than the red + cyan the style guide and the game's own logo
+both call for. Wrong object for a hand prop. Kept in the place as
+`ReplicatedStorage.MagnetMesh_v1_craneMount` and on disk at `assets/generated/magnet/`.
