@@ -153,3 +153,60 @@ Built from `Robot.png`, where the magnet hangs off a robot arm — so its pole f
 crane mount** and it is all-red rather than the red + cyan the style guide and the game's own logo
 both call for. Wrong object for a hand prop. Kept in the place as
 `ReplicatedStorage.MagnetMesh_v1_craneMount` and on disk at `assets/generated/magnet/`.
+
+
+## Magnet Sweep / collectible scrap (verified 2026-09-13, game Job 023)
+
+Existing owner-generated/imported Meshy assets, not new purchases or imports.
+Each `ServerStorage.ImportedMeshes.<name>` contains one textured MeshPart and no
+scripts. Runtime `ScrapMeshPool` clones that part directly under `Workspace.Scrap`;
+`ScrapSpec.mesh` names the template. Preserve these names and native proportions.
+The textures below are `TextureID`, not SurfaceAppearance ColorMap bindings.
+
+| Template | MeshId | TextureID |
+|---|---|---|
+| bead | 74569087922881 | 100160542963496 |
+| washer | 119906234344638 | 135746242970372 |
+| screw | 127423414316621 | 110317630475066 |
+| nut | 86635625770592 | 81381021406972 |
+| bolt | 71325276750015 | 80685746271196 |
+| spring | 82185162635099 | 106995717053635 |
+| gear | 70619800931195 | 87074942083197 |
+| pipe | 137115916578352 | 132361584447457 |
+| block | 135756743579726 | 116487463119349 |
+| windup | 101614295152317 | 101346650869515 |
+| toycar | 86293891189362 | 117668295562086 |
+| toyrobot | 120629952351811 | 81855496919651 |
+
+Disk sources: `roblox.magnet-sweep/assets/generated/scrap/`. Floor 1 uses the first
+eight types; all twelve bindings passed the isolated pool test. The disk/import
+audit is `roblox.magnet-sweep/Jobs/023/asset-import-audit.md`. Its one unimported
+gantry crane remains optional and was not imported for this work.
+
+## Workspace / standalone (added 2026-09-06, Job #013)
+
+| Name | MeshId | Project | Notes |
+|------|--------|---------|-------|
+| mesh (Nightweave source body) | 81520046220289 | inventory (workspace) | **Ours, Meshy meshy-7 image-to-3D.** Single unrigged T-pose body, 10441 tris, 4.77 x 4.95 x 0.96 studs at import scale factor 2.6. The pre-Auto-Setup source for NightWaveMan (75637982489690). Carries a SurfaceAppearance, not a TextureID. |
+
+## Magnet Sweep / Scrap Sweeper Guardian (generated 2026-09-13, game Job 023)
+
+Local generated files only; **not imported, no Roblox IDs**. Owner approved
+concept, modular split and 90 credits. All three Meshy tasks succeeded for exactly
+90 credits; balance 1,470. No paid retries or extra processing. Owner's Meshy Pro
+generation; original GLBs and reference PNGs preserved.
+
+| Name | Roblox ID | Project | Source | Stored at | Scan / status |
+|---|---|---|---|---|---|
+| Scrap Sweeper static body | Pending import | Magnet Sweep | Meshy 01a09ad9-dc99-745c-a38d-67f17e436f70; local cleanup | roblox.magnet-sweep/assets/generated/guardian/body-import.glb | Not imported; 5,012 tris; scan after import |
+| Scrap Sweeper reusable wheel | Pending import | Magnet Sweep | Meshy 01a09ad9-ea5a-72ed-833f-863ed52b32fb | roblox.magnet-sweep/assets/generated/guardian/wheel.glb | Not imported; 1,046 tris; reuse twice; scan after import |
+| Scrap Sweeper brush roller | Pending import | Magnet Sweep | Meshy 01a09b4a-f554-727f-9bd6-2dc1b574cfaf; local radial barrel/subdivision repair | roblox.magnet-sweep/assets/generated/guardian/brush-import-v3.glb | Not imported; 2,198 tris; scan after import; earlier candidates rejected |
+
+Full provenance, file hashes, preparation scripts and review evidence:
+roblox.magnet-sweep/Jobs/023/guardian-asset-results.md and
+assets/generated/guardian/README.md. Keep separate component scales and mount axes;
+round-sweep clearance/player-camera/mobile verification belongs to later assembly.
+Eye and beacon are separate authored Roblox components, not new Meshy files.
+Independent technical geometry review passed for the three listed files. The
+brush has angled closed bands rather than a continuous spiral; owner aesthetic
+acceptance of that source simplification remains open at import review.

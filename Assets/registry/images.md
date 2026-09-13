@@ -202,3 +202,15 @@ Kill the server afterwards.
 
 **Reproducible**: the source PNG is in git, so the exact plate can be rebuilt and re-uploaded without
 guessing at the blur values. Used by `studio_game/ReplicatedFirst/BootScreen.local.luau`.
+
+
+## Workspace / standalone (added 2026-09-06, Job #013)
+
+Nightweave body PBR set - a **SurfaceAppearance** on the source MeshPart, not a plain TextureID.
+
+| Name | rbxassetid | Project | Notes |
+|------|------------|---------|-------|
+| Nightweave ColorMap | 130215752622606 | inventory (workspace) | SurfaceAppearance.ColorMap, 2K. Cyan glow is painted into albedo - there is **no emissive map**, so it does not actually emit. Use a Highlight or PointLight for real glow. |
+| Nightweave NormalMap | 97856583270635 | inventory (workspace) | SurfaceAppearance.NormalMap, 2K |
+| Nightweave MetalnessMap | 121252940941051 | inventory (workspace) | SurfaceAppearance.MetalnessMap, 2K |
+| Nightweave RoughnessMap | 103664110001347 | inventory (workspace) | SurfaceAppearance.RoughnessMap, 2K |

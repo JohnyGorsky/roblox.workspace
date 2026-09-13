@@ -157,3 +157,10 @@ cold-ocean art direction was unreachable without real sky art.
 
 **Still missing:** a true flat-grey overcast. Nothing free in the store is it; `SnowGrey` is the nearest
 borrow. If the calm states still read wrong, the answer is to commission six faces to the palette.
+
+
+## Workspace / standalone avatar items (added 2026-09-06, Job #013)
+
+| Name | rbxassetid | Project | Notes |
+|------|------------|---------|-------|
+| NightWaveMan (Nightweave avatar body) | **75637982489690** | inventory (workspace) | **Ours, Meshy-generated, 0 Robux.** Full **R15** custom avatar body saved as a **Development Item** (free inventory path, NOT a Marketplace avatar item). 15/15 R15 MeshParts, Humanoid RigType R15, HipHeight 2.579, PrimaryPart HumanoidRootPart, 15 WrapTargets (cages present, so layered clothing fits), 52 attachments incl. HatAttachment / HairAttachment / FaceFrontAttachment, FaceControls on Head. Joints are **AnimationConstraint + BallSocketConstraint, NOT Motor6D** (Motor6D count is 0 by design on this rig) - verified by Walk/Run/Jump playing in Avatar Setup. Body is 4.77 x 4.95 x 1.00 studs. Built by Roblox Avatar Auto Setup from a single 10441-tri Meshy mesh. Design: original spider-hero, matte black + electric cyan hex circuit webbing, chevron lenses, hood baked into the body mesh. Deliberately shares no protected element of any franchise. ⚠️ **FAILS Marketplace validation** on per-part triangle caps (Torso 2658/1750, RArm 1856/1248, LArm 1854/1248, RLeg 1496/1248, LLeg 1492/1248; Head passes) plus a left-eye cage landmark error (masked face has no eye geometry). Total was under the 10742 budget - the **per-part** caps are what it breaks. A Marketplace-legal rebuild needs regenerating at roughly 7800 tris. Source files in `Jobs/013/assets/`. |
