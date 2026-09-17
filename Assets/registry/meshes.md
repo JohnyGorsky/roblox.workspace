@@ -191,22 +191,32 @@ gantry crane remains optional and was not imported for this work.
 
 ## Magnet Sweep / Scrap Sweeper Guardian (generated 2026-09-13, game Job 023)
 
-Local generated files only; **not imported, no Roblox IDs**. Owner approved
+Owner imported all three approved GLBs and authorized assembly. All imports and
+the assembled prefab contain **zero scripts**, scanned before Play. Owner approved
 concept, modular split and 90 credits. All three Meshy tasks succeeded for exactly
 90 credits; balance 1,470. No paid retries or extra processing. Owner's Meshy Pro
 generation; original GLBs and reference PNGs preserved.
 
 | Name | Roblox ID | Project | Source | Stored at | Scan / status |
 |---|---|---|---|---|---|
-| Scrap Sweeper static body | Pending import | Magnet Sweep | Meshy 01a09ad9-dc99-745c-a38d-67f17e436f70; local cleanup | roblox.magnet-sweep/assets/generated/guardian/body-import.glb | Not imported; 5,012 tris; scan after import |
-| Scrap Sweeper reusable wheel | Pending import | Magnet Sweep | Meshy 01a09ad9-ea5a-72ed-833f-863ed52b32fb | roblox.magnet-sweep/assets/generated/guardian/wheel.glb | Not imported; 1,046 tris; reuse twice; scan after import |
-| Scrap Sweeper brush roller | Pending import | Magnet Sweep | Meshy 01a09b4a-f554-727f-9bd6-2dc1b574cfaf; local radial barrel/subdivision repair | roblox.magnet-sweep/assets/generated/guardian/brush-import-v3.glb | Not imported; 2,198 tris; scan after import; earlier candidates rejected |
+| Scrap Sweeper static body | 88805956145384 | Magnet Sweep | Meshy 01a09ad9-dc99-745c-a38d-67f17e436f70; local cleanup | roblox.magnet-sweep/assets/generated/guardian/body-import.glb | 0 scripts; 5,012 tris; assembled |
+| Scrap Sweeper reusable wheel | 75795598576104 | Magnet Sweep | Meshy 01a09ad9-ea5a-72ed-833f-863ed52b32fb | roblox.magnet-sweep/assets/generated/guardian/wheel.glb | 0 scripts; 1,046 tris; reused twice |
+| Scrap Sweeper brush roller | 89525706022226 | Magnet Sweep | Meshy 01a09b4a-f554-727f-9bd6-2dc1b574cfaf; local radial barrel/subdivision repair | roblox.magnet-sweep/assets/generated/guardian/brush-import-v3.glb | 0 scripts; 2,198 tris; earlier candidates rejected |
 
 Full provenance, file hashes, preparation scripts and review evidence:
 roblox.magnet-sweep/Jobs/023/guardian-asset-results.md and
 assets/generated/guardian/README.md. Keep separate component scales and mount axes;
-round-sweep clearance/player-camera/mobile verification belongs to later assembly.
+Studio imports include a baked 180-degree Y rotation plus recentering, already
+compensated in the assembly. Full-sweep clearance and desktop player-camera
+idle/alert checks passed. Mobile measurement remains open.
 Eye and beacon are separate authored Roblox components, not new Meshy files.
 Independent technical geometry review passed for the three listed files. The
 brush has angled closed bands rather than a continuous spiral; owner aesthetic
-acceptance of that source simplification remains open at import review.
+acceptance of that source simplification remains open.
+
+Originals: `ServerStorage.GuardianSourceImports`. Editable assembly:
+`Workspace.DemoRoom.13_Guardian.ScrapSweeper`. Reusable prefab:
+`ServerStorage.GuardianTemplates.ScrapSweeper`. PBR maps are in images.md;
+TextureID is empty. Recovery and independent Play review:
+`roblox.magnet-sweep/Jobs/023/guardian-assembly-results.md`. No guardian gameplay
+controller or permanent room instance was installed during assembly.

@@ -106,7 +106,7 @@ All 11 IDs verified in Studio 2026-07-30 (`GetProductInfo` → name match, Asset
 | purchase_success | 108328452137259 | jungle | purchase confirmed |
 | failed_or_not_allowed | 95777104498740 | jungle | purchase fail / action not allowed / error |
 | upgrade_applied | 98721741422623 | jungle | boat / skill upgrade bought & applied |
-| rank_completed_or_mission_completed | 135669512865613 | jungle | rank-up / mission-complete stinger |
+| rank_completed_or_mission_completed | 135669512865613 | jungle; magnet-sweep | rank-up / mission-complete stinger. Owner approved reuse 2026-09-13, Magnet Sweep Job023: SoundKit.CARGO.Secured, local celebration after durable prize save. |
 | footsteps_wood | 74260976253608 | jungle | footsteps on wood (dock, stall decks) |
 | running_on_sand | 113877578461119 | jungle | running on sand (airfield clearing) |
 
@@ -187,7 +187,7 @@ klaxon two seconds before the doors land, which reads as a bug rather than an al
 
 | Name | rbxassetid (SoundId) | Length | Project | Role |
 |------|----------------------|--------|---------|------|
-| alarm | 103190295733089 | 8.05 s | jungle | Bunker doors unlocking: one-shot, positional on the doors, volume 0.85, `InverseTapered` with a **300-stud** tail. The tail is sized off the world, not taste — the furthest generator is 155 studs from the doors, and whoever lands the killing blow has to hear the thing they just opened |
+| alarm | 103190295733089 | 8.05 s | jungle; magnet-sweep | Bunker doors unlocking: one-shot, positional on the doors, volume 0.85, InverseTapered with a **300-stud** tail. The tail is sized off the world, not taste — the furthest generator is 155 studs from the doors, and whoever lands the killing blow has to hear the thing they just opened. Owner approved reuse 2026-09-13, Magnet Sweep Job023: SoundKit.CARGO.Siren, loop during Guardian Chase, volume0.55, 20–90stud range. Actual Play loaded and playing (8.0457s). Job024 reuses the approved sound for FactoryLockdownAlarm: separate client sound in SoundService, volume0.55, factory-only playback through warning/closure, paused outside and stopped on reset; loaded/playing verified in desktop Play. No new acquisition. |
 
 ### GAME place — weapons, uploaded 2026-08-02
 

@@ -159,6 +159,32 @@ cold-ocean art direction was unreachable without real sky art.
 borrow. If the calm states still read wrong, the answer is to commission six faces to the palette.
 
 
+## Magnet Sweep / Scrap Sweeper (assembled 2026-09-13, game Job 023)
+
+| Name | Model asset ID | Source | Stored at | Scan / verification |
+|---|---|---|---|---|
+| ScrapSweeper | Local assembly; no published model ID | Three owner-generated/imported meshes plus authored Roblox eye/beacon | `ServerStorage.GuardianTemplates.ScrapSweeper`; editable copy `Workspace.DemoRoom.13_Guardian.ScrapSweeper` | 0 scripts; 41 instances, 12 BaseParts, 4 hinges; independent assembly review and desktop Play idle/alert/rotation checks passed |
+
+Source imports are preserved unchanged under `ServerStorage.GuardianSourceImports`.
+Three unique mesh IDs and PBR maps are recorded in meshes.md and images.md.
+Four mesh instances total 9,302 source triangles. Root controls position/orientation;
+all visual parts are massless and non-collidable. Saved template is inert, with
+anchored root and zero motor speeds. No Humanoid, rig or animation upload.
+
+Recovery: `roblox.magnet-sweep/Jobs/023/guardian.snapshot.json` and
+`restore-guardian.luau`; 434 checks, zero mismatches, empty destination required.
+The temporary Play clone at GuardianHome was removed. This is not installed
+prize/chase/catch gameplay. Mobile measurement and owner aesthetic acceptance
+remain open; see `guardian-assembly-results.md` in the same job.
+
+## Magnet Sweep / Wind-Up Guardian (assembled2026-09-14, game Job027)
+
+| Name | Model asset ID | Source | Stored at | Scan / verification |
+|---|---|---|---|---|
+| WindUpGuardian | Local assembly; no published model ID | Owner-approved existing BUILDING_BLOCK_CHEST75390162385235, TOY_CAMERA93938478028991, WIND_UP_KEY84203789578127, ROLLER_SKATES119235166953280, TOY_HAMMER124942513467538; MaterialKit-authored mounts/eye/beacon | `ServerStorage.GuardianTemplates.WindUpGuardian`; editable `Workspace.DemoRoom.14_WindUpGuardian.WindUpGuardian` | 0 scripts;51 instances,21 BaseParts,2 hinges; desktop private Play rotation/idle/red-alert checks and611-check recovery pass |
+
+Toy meshes retain original diffuse TextureIDs; no purchase/generation/upload. Sources unchanged. Saved root anchored, visual parts massless/non-collidable, idle cyan with stopped motors and disabled alarm lights. This is the new DemoRoom boss assembly, not installed Room2 gameplay. The key source includes a fused cone and bolted mounting plate that rotate with it; art cleanup remains explicit. Recovery: `roblox.magnet-sweep/Jobs/027/windup.snapshot.json` plus `restore-windup.luau`; require empty destination. Whole-place saved status was not exposed through MCP.
+
 ## Workspace / standalone avatar items (added 2026-09-06, Job #013)
 
 | Name | rbxassetid | Project | Notes |

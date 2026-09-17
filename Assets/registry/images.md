@@ -214,3 +214,20 @@ Nightweave body PBR set - a **SurfaceAppearance** on the source MeshPart, not a 
 | Nightweave NormalMap | 97856583270635 | inventory (workspace) | SurfaceAppearance.NormalMap, 2K |
 | Nightweave MetalnessMap | 121252940941051 | inventory (workspace) | SurfaceAppearance.MetalnessMap, 2K |
 | Nightweave RoughnessMap | 103664110001347 | inventory (workspace) | SurfaceAppearance.RoughnessMap, 2K |
+
+## Magnet Sweep / Scrap Sweeper PBR (imported 2026-09-13, game Job 023)
+
+Owner-generated Meshy assets, imported by owner. SurfaceAppearance bindings;
+TextureID is empty. Source masters are 2048 square; live decoded copies inspected
+at 1024 square. Original imports are in `ServerStorage.GuardianSourceImports`.
+
+| Part | ColorMap | NormalMap | MetalnessMap | RoughnessMap |
+|---|---|---|---|---|
+| Body | 96054821549988 | 139450593979299 | 140721649448864 | 77394837853258 |
+| Wheel (reused twice) | 110529437656435 | 99562938106107 | 139045191543267 | 134734516735547 |
+| Brush | 88928107249950 | 135249936229030 | 119688159797977 | 111796109405863 |
+
+Actual Play rendering and independent decoded-map samples checked. The
+instance-based loading probe passed all 15 unique mesh/map IDs. Recovery preserves
+every map binding in `roblox.magnet-sweep/Jobs/023/guardian.snapshot.json`.
+See that job's `guardian-assembly-results.md` for evidence and limits.
