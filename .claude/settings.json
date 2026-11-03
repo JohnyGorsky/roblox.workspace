@@ -10,7 +10,8 @@
       "Bash(git diff:*)",
       "Bash(git log:*)",
       "Bash(git show:*)",
-      "Bash(git ls-files:*)"
+      "Bash(git ls-files:*)",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:/Dati/Work/roblox.workspace/tools/studio-save.ps1)"
     ],
     "deny": [
       "Bash(git commit:*)",

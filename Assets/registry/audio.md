@@ -145,7 +145,7 @@ stern) so the engine is heard from the right place and falls off with distance f
 | gun_empty_clip | 135106168511714 | jungle | uploaded 2026-08-16 — alternate for `empty_gun`, not wired |
 | boat_destroyed | 102492807352506 | jungle | ✅ wired (#081) — hull reaches 0 |
 | boat_on_fire | 76815433524413 | jungle | ✅ wired (#081) — loops under 30% hull; 17.2 s clip |
-| metal_hit_1_sec | 108683025674193 | jungle | ✅ wired (#081) — layered on a hit >=18% MaxHP |
+| metal_hit_1_sec | 108683025674193 | jungle; magnet-sweep | ✅ wired (#081) — layered on a hit >=18% MaxHP. Magnet Sweep job 065 (2026-11-02): one of the random `Bolt` pickup takes (`SoundKit.VARIANTS`), 1.2 s |
 | low_fuel_warning | 76291949644634 | jungle | ✅ wired (#081) — `Theme.sound.lowFuel` |
 | low_hull_warning | 77018431817918 | jungle | ✅ wired (#081) — `Theme.sound.lowHull` |
 | palyer_dawned | 139285102940691 | jungle | ✅ wired (#081) — `Theme.sound.downed` (upload's spelling) |
@@ -320,3 +320,34 @@ problem as `6011559008`, which admits in its own description to being a Pink Flo
 
 Licence: Pro Sound Effects is **use within Roblox only**. `75886285262316`'s creator states free use on the
 Roblox platform, use elsewhere prohibited.
+
+### MAGNET SWEEP — music, job 065 (2026-11-02)
+
+Roblox-licensed APM Music from the Creator Store (use within Roblox only). Checked against our own music first:
+Defender `shark_attack_music` (12.3 s), Jungle `lobby_intro_music` (17.5 s) and `battle_starts` (13.0 s) are too
+short to loop under play. Full table, alternatives and pickup variants: `roblox.magnet-sweep/assets/registry/sounds.md`.
+
+| Name | rbxassetid | Project | Use |
+|------|-----------|---------|-----|
+| APM "Softest Touch (c)" | 9044565945 | magnet-sweep | `MUSIC.Hub`, Workshop loop, 131.5 s, volume 0.20 |
+| APM "Data Download D" | 9043970207 | magnet-sweep | `MUSIC.Factory`, factory-room loop (no drums), 128.2 s, volume 0.144 |
+| APM "Time Ticking" | 9042594679 | magnet-sweep | `MUSIC.Chase`, carrying a stolen part / Lockdown, 133.5 s, volume 0.28 |
+
+### MAGNET SWEEP — timed events, job 072 (2026-11-03)
+
+Claude's picks, landed without an audition (owner: "implement all sounds etc. do not wait approval. If i wont like we
+will change"); every one loaded in Studio (IsLoaded, TimeLength). APM / PSE / DistroKid via the Creator Store — use
+within Roblox only. Alternatives per slot: `roblox.magnet-sweep/ReplicatedStorage/SoundKit.luau` SHORTLIST (F3 bench).
+
+| Name | rbxassetid | Project | Use |
+|------|-----------|---------|-----|
+| DistroKid "Silly Piano Dance - Funny Bounce Song for Kids" | 137521694486765 | magnet-sweep | `MUSIC.ScrapRain`, 123 s, volume 0.24 (the owner's "peel banana" spirit; DistroKid allowed by the owner's wizard) |
+| APM "A Place for Kings Part 1" | 1837435800 | magnet-sweep | `MUSIC.LegendarySignal`, orchestra + choir, 75.2 s, volume 0.24 |
+| APM "Scrape the Edges Underscore Pulse Only" | 101305952125724 | magnet-sweep | `MUSIC.SecurityFailure`, 150.9 s, volume 0.26 |
+| APM "Spray Shop (a) 60" | 9039786872 | magnet-sweep | `MUSIC.MagneticStorm`, industrial hi-tech, 61.7 s, volume 0.24 |
+| APM "Jump Top Boogie (sting)" | 1841948759 | magnet-sweep | `EVENT.ScrapRainStart`, 7.6 s |
+| APM "Victorious Journey Sting" | 94590027038118 | magnet-sweep | `EVENT.LegendarySignalStart`, 7.3 s |
+| APM "Medal Of Honor E" | 1845720697 | magnet-sweep | `EVENT.LegendaryReveal`, 5.7 s |
+| PSE Neon Zaps Some Metallic Buzz 6 | 9117073104 | magnet-sweep | `EVENT.SecurityFailureStart`, 3.7 s |
+| PSE Thunder Sharp Booming Strikes Rumbling 3 | 9120021539 | magnet-sweep | `EVENT.MagneticStormStart`, 15.4 s |
+| PSE Tesla Coil 3 (reuse of ARENA.Weld) | 9119992532 | magnet-sweep | `EVENT.Lightning`, 1.4 s |

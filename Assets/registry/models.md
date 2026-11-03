@@ -75,6 +75,15 @@ keyword search)**. Project tagged from names; `defender` = Roblox Defender (fant
 
 ## Third-party (Creator Store) — scanned before use
 
+> 🔴 **REJECTED, do not insert:** `137358263064817` "Car Engine Parts Block Mesh" (creator Regedimu251). The listing
+> says "no scripts"; the insert (Magnet Sweep job 068, 2026-11-02, into ServerStorage) held a hidden 5.6K-char server
+> `Script` "Runtime" plus a 35K-char `LocalScript` inside mesh `object_14`, building a ScreenGui overlay with input
+> bindings and a RemoteFunction: a backdoor. Destroyed before Play; nothing synced to disk. Tier 6's Engine Block goes
+> to Meshy instead.
+>
+> ✅ **Magnet Sweep job 068:** `8098466213` "Turbocharger" (FrontalFoil7): 2 meshes, **0 scripts**, staged at
+> `Workspace.DemoRoom.32_Tier6Parts` in chrome, awaiting the owner's approval.
+
 Free Creator Store inserts, **localized into a clean library** we duplicate from — so reuse doesn't
 depend on the Store listing. **Script-scanned = 0 scripts** (foliage must have none). We always record
 **where it lives in our folder**; the **origin rbxassetid only when known**. `Stored at` = library path
@@ -236,6 +245,63 @@ remain open; see `guardian-assembly-results.md` in the same job.
 | WindUpGuardian | Local assembly; no published model ID | Owner-approved existing BUILDING_BLOCK_CHEST75390162385235, TOY_CAMERA93938478028991, WIND_UP_KEY84203789578127, ROLLER_SKATES119235166953280, TOY_HAMMER124942513467538; MaterialKit-authored mounts/eye/beacon | `ServerStorage.GuardianTemplates.WindUpGuardian`; editable `Workspace.DemoRoom.14_WindUpGuardian.WindUpGuardian` | 0 scripts;51 instances,21 BaseParts,2 hinges; desktop private Play rotation/idle/red-alert checks and611-check recovery pass |
 
 Toy meshes retain original diffuse TextureIDs; no purchase/generation/upload. Sources unchanged. Saved root anchored, visual parts massless/non-collidable, idle cyan with stopped motors and disabled alarm lights. This is the new DemoRoom boss assembly, not installed Room2 gameplay. The key source includes a fused cone and bolted mounting plate that rotate with it; art cleanup remains explicit. Recovery: `roblox.magnet-sweep/Jobs/027/windup.snapshot.json` plus `restore-windup.luau`; require empty destination. Whole-place saved status was not exposed through MCP.
+
+## Magnet Sweep / Room 7, the Car Factory (game job 073, 2026-11-03)
+
+**Ours.** Part models: Meshy (image-to-3D, 264 credits), uploaded as `.glb` through **Open Cloud**
+(`tools/opencloud-upload.py`, the owner's key, creator user 5025640608), all moderation **Approved**, 0 scripts, full
+PBR SurfaceAppearance. The upload left `EmissiveMaskContent = rbxassetid://6` (no such asset) on every one: cleared.
+Stored flattened as `ServerStorage.ImportedMeshes.cf_*` (Model > MeshPart `Mesh_0`, 1.9 studs longest side).
+
+| Part (PartArt mesh) | Model asset ID | Meshy task |
+|---|---|---|
+| SENSOR_RACK (`cf_sensor_rack`) | **114151811877878** | 01a19e92-ef8e-7486-8511-8bb782e12959 |
+| V8_ENGINE (`cf_v8_engine`) | **70921524455941** | 01a19e92-f321-72ad-853f-3a1fd72f155f |
+| VEHICLE_CHASSIS (`cf_vehicle_chassis`) | **75554371934301** | 01a19e92-f667-765e-b6ba-5bd0a6d42de2 |
+| WELDING_ARM (`cf_welding_arm`) | **107012682096855** | 01a19e92-f9b7-77b1-9fda-71782c9b3396 |
+| AXLE_HAMMER (`cf_axle_hammer`) | **116279692378152** | 01a19e92-fcaf-708b-a81b-e5960c71afb6 |
+| RACING_WHEELS (`cf_racing_wheels`) | **130150629405175** | 01a19e92-ff8b-729c-a251-f9e863ce9ff1 |
+| NITROUS_TANKS (`cf_nitrous_tanks`) | **92919620010803** | 01a19e93-0290-729b-b745-9bdaa71c631f |
+| PROTOTYPE_ENGINE_CRANE (`cf_engine_crane`) | **138653484904244** | 01a19e93-05cb-7564-9959-67ab6f6904a3 |
+
+Room props, Studio `generate_mesh` (free, ours, 0 scripts; each first landed where the editor camera pointed):
+
+| Prop | Asset ID | Used as |
+|---|---|---|
+| Sports-car body | 135674383028106 | the line bodies (12) + the cars on the hall's lifts (owner pick) |
+| Welding robot arm (4 parts) | 126689120054331 | the 4 welders, leaned 50 deg toward their line |
+| Security car A, white police 4x4 (4 parts) | 102250581596893 | `ServerStorage.GuardianTemplates.SecurityCarGuardian` (owner pick, Patrol Cart frame) |
+| Hazard bollard | 135960822572023 | the lines' fences |
+| Two-post car lift | 87011218832705 | hall walls |
+| Tyre rack | 74803624948331 | hall walls |
+| Grey jeep on a skid / security car B / conveyor track | 82080635057192 / 86253888683646 / 72474163283992 | staging only (not picked / unusable) |
+
+## Magnet Sweep / Armor sets 3-5 (game job 069, uploaded 2026-11-03)
+
+**Ours.** Meshy (495 credits), uploaded as `.glb` through Open Cloud like room 7's parts (all Approved, 0 scripts, PBR;
+the `rbxassetid://6` emissive mask cleared). Stored as `ServerStorage.ImportedMeshes.s2_*`. The sets stay Planned
+(not equippable) until the owner approves them in staging.
+
+| Piece | Asset ID | Piece | Asset ID | Piece | Asset ID |
+|---|---|---|---|---|---|
+| s2_ranger_helmet | 87159955203964 | s2_mech_visor | 108664474936051 | s2_titan_faceplate | 72226635405724 |
+| s2_ranger_suit | 122397719139889 | s2_mech_torso | 75514455664894 | s2_titan_chestplate | 104755195593936 |
+| s2_ranger_laser | 139808750324640 | s2_mech_cannon | 73263343180399 | s2_titan_blaster | 82500233007377 |
+| s2_ranger_hover | 109619506240643 | s2_mech_treads | 115089388353269 | s2_titan_boots | 77350774845965 |
+| s2_ranger_jetpack | 87705689744026 | s2_mech_rockets | 91709204303690 | s2_titan_afterburner | 132149741074997 |
+
+## Magnet Sweep / Armor sets 6-7, WRECKER + TURBO RACER (game job 074, 2026-11-03)
+
+**Ours.** Meshy (336 credits), Open Cloud upload (Approved, 0 scripts, PBR, emissive mask cleared) →
+`ServerStorage.ImportedMeshes.s3_*`. Live (owner approved on the robot).
+
+| Piece | Asset ID | Piece | Asset ID |
+|---|---|---|---|
+| s3_wrecker_helm | 99936183183393 | s3_racer_helmet | 112726972211218 |
+| s3_wrecker_chest | 114869198258938 | s3_racer_cage | 139788676651312 |
+| s3_wrecker_ball | 80741668988409 | s3_racer_nitro | 83620853823621 |
+| s3_wrecker_wheels | 107439192824530 | s3_racer_slicks | 89170889256320 |
+| s3_wrecker_stacks | 87639243406125 | s3_racer_spoiler | 116469125278539 |
 
 ## Workspace / standalone avatar items (added 2026-09-06, Job #013)
 
